@@ -1,0 +1,14 @@
+# ARM Transport site — Apache / cPanel / LiteSpeed hosting
+# Serve the 3D models with the right type and let browsers cache them for a year (filenames change if models change).
+AddType model/gltf-binary .glb
+AddType model/gltf+json .gltf
+<IfModule mod_headers.c>
+  <FilesMatch "\.(glb|gltf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+<IfModule mod_deflate.c>
+  # GLB is already compact; skip compression so the files are served as-is
+  SetEnvIfNoCase Request_URI \.glb$ no-gzip
+</IfModule>

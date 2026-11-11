@@ -1,0 +1,2757 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARM Transport | Haulage and pallet distribution, Manchester</title>
+<meta name="description" content="ARM Transport, Manchester: pallet distribution, part loads, full loads and dedicated vehicles across the UK. Call 0161 706 0601 for a quote.">
+<meta name="theme-color" content="#121316">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ARM Transport | Haulage and pallet distribution, Manchester">
+<meta property="og:description" content="Pallet distribution, part loads, full loads and dedicated vehicles from our Manchester yard. Call 0161 706 0601 for a quote.">
+<meta property="og:locale" content="en_GB">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23121316'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='26' fill='%23e3262b'%3EARM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js">
+<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
+<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js">
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/objects/Reflector.js">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Archivo+Black&family=Jost:wght@700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "ARM Transport",
+  "telephone": "+44 161 706 0601",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Yard 1, Excel Center, Preston Street",
+    "addressLocality": "Manchester",
+    "postalCode": "M18 8DB",
+    "addressCountry": "GB"
+  },
+  "hasMap": "https://maps.google.com/maps/place//data=!4m2!3m1!1s0x487bb1022de6242b:0xb230a338502933ef"
+}
+</script>
+<style>
+  :root {
+    --bg: #121316;
+    --fg: #f2efe9;
+    --muted: #9c9ca1;
+    --line: rgba(242, 239, 233, 0.14);
+    --line-strong: rgba(242, 239, 233, 0.32);
+    --font: "Instrument Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  /* The brief pins a dark studio background; the tokens stay the same in both viewer themes. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #121316; --fg: #f2efe9; --muted: #9c9ca1; }
+  }
+  :root[data-theme="dark"] { --bg: #121316; --fg: #f2efe9; --muted: #9c9ca1; }
+
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); -webkit-text-size-adjust: 100%; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  [hidden] { display: none !important; }
+  a:focus-visible, button:focus-visible, li:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  /* ---------- the 3D stage ---------- */
+  #stage {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: block;
+    z-index: 0;
+    touch-action: pan-y;
+  }
+  #scroll-space { height: 1100vh; position: relative; z-index: -1; }
+
+  /* ---------- loader ---------- */
+  #loader {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 22px;
+  }
+  #loader .logo { display: block; width: 198px; height: 122px; color: var(--fg); }
+  #loader .track { width: 160px; height: 1px; background: var(--line); overflow: hidden; }
+  #loader .track i { display: block; height: 100%; width: 40%; background: var(--fg); animation: slide 1.1s ease-in-out infinite; }
+  #loader .note { font-size: 13px; color: var(--muted); max-width: 32ch; text-align: center; }
+  @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+
+  /* ---------- in-flow business sections (after the 3D experience) ---------- */
+  .page-section { position: relative; z-index: 30; background: var(--bg); color: var(--fg); padding: clamp(72px, 10vh, 120px) 28px; border-top: 1px solid var(--line); }
+  .page-section .wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 56px; align-items: start; }
+  .page-section .label { margin: 0 0 10px; font-size: 14px; color: var(--muted); }
+  .page-section h2 { margin: 0 0 16px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.02; font-size: clamp(2rem, 3.6vw, 3.2rem); }
+  .page-section p.body { margin: 0; font-size: clamp(1rem, 1.1vw, 1.125rem); line-height: 1.5; max-width: 44ch; opacity: 0.86; }
+  .site-footer { position: relative; z-index: 30; background: #0d0e10; border-top: 1px solid var(--line); padding: 40px 28px 56px; font-size: 13px; color: var(--muted); }
+  .site-footer .wrap { max-width: 1120px; margin: 0 auto; display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; align-items: flex-start; }
+  .site-footer .logo { width: 86px; height: 53px; color: var(--fg); display: block; margin-bottom: 14px; }
+  .site-footer p { margin: 4px 0; max-width: 62ch; line-height: 1.5; }
+  .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .site-footer a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .in-page .rail, .in-page .chapters, .in-page .scroll-hint, .in-page .progress { opacity: 0 !important; pointer-events: none !important; transition: opacity 0.4s; }
+  @media (max-width: 900px) {
+    .page-section { padding: 64px 20px; }
+    .page-section .wrap { grid-template-columns: 1fr; gap: 36px; }
+    .site-footer .wrap { flex-direction: column; }
+  }
+
+
+  /* ---------- quote call-to-action section (after the 3D experience) ---------- */
+  .page-section .wrap.cta { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); align-items: center; }
+  .page-section .actions { margin-top: 26px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .quiet { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 2px; font-variant-numeric: tabular-nums; color: var(--fg); }
+  .contact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .contact-list li { display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; }
+  .contact-list b { font-weight: 500; color: var(--muted); font-size: 13px; }
+  .contact-list a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line-strong); width: max-content; max-width: 100%; font-variant-numeric: tabular-nums; }
+  .contact-list span { color: var(--fg); opacity: 0.86; line-height: 1.5; }
+
+  /* ---------- the quote page ---------- */
+  .quote-page { position: fixed; inset: 0; z-index: 70; background: var(--bg); color: var(--fg); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  body.quote-open { overflow: hidden; }
+  .quote-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; padding: calc(14px + env(safe-area-inset-top, 0px)) 28px 14px; background: linear-gradient(to bottom, var(--bg) 72%, rgba(18, 19, 22, 0)); }
+  .quote-head .logo { display: block; width: 86px; height: 53px; color: var(--fg); }
+  .quote-close { font: 500 14px/1 var(--font); color: var(--fg); background: transparent; border: 1px solid var(--line-strong); border-radius: 999px; padding: 11px 16px; cursor: pointer; }
+  .quote-close:hover { border-color: var(--fg); }
+  .quote-wrap { max-width: 1120px; margin: 0 auto; padding: 12px 28px calc(80px + env(safe-area-inset-bottom, 0px)); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 56px; align-items: start; }
+  .quote-side { position: sticky; top: 92px; }
+  .quote-side .label { margin: 0 0 10px; font-size: 14px; color: var(--muted); }
+  .quote-side h2 { margin: 0 0 14px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.04; font-size: clamp(1.9rem, 3vw, 2.8rem); }
+  .quote-side .body { margin: 0; font-size: 1rem; line-height: 1.5; opacity: 0.86; max-width: 40ch; }
+  .steps { list-style: none; counter-reset: step; margin: 26px 0 0; padding: 0; display: grid; gap: 12px; }
+  .steps li { counter-increment: step; display: grid; grid-template-columns: 26px 1fr; gap: 2px 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; }
+  .steps li::before { content: counter(step); grid-row: 1 / 3; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; font-size: 12px; color: var(--muted); }
+  .steps b { font-weight: 500; }
+  .steps span { color: var(--muted); font-size: 13px; }
+  .quote-contact { margin: 26px 0 0; font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .quote-contact a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line-strong); font-variant-numeric: tabular-nums; }
+  .quote-addr { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+  .qf-mode { margin: 0 0 14px; font-size: 14px; color: var(--muted); line-height: 1.55; }
+  .qf-mode b { color: var(--fg); font-weight: 500; }
+  .qf-mode a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+  .contact-cards { margin: 26px 0 0; display: grid; gap: 10px; }
+  .contact-card { display: grid; gap: 2px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; color: var(--fg); text-decoration: none; font-size: 15px; font-variant-numeric: tabular-nums; transition: border-color 0.2s, background 0.2s; word-break: break-all; }
+  .contact-card small { font-size: 12px; color: var(--muted); }
+  .contact-card:hover { border-color: var(--line-strong); background: rgba(255, 255, 255, 0.035); }
+  .qf-section { padding: 22px 0 8px; border-top: 1px solid var(--line); }
+  .qf-section:first-of-type { border-top: 0; padding-top: 6px; }
+  .qf-section h3 { margin: 0 0 16px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .qf-section h3 span { width: 24px; height: 24px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; font-size: 12px; font-weight: 600; }
+  .qf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+  .qf-grid .span { grid-column: 1 / -1; }
+  .qf-field { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; min-width: 0; }
+  .qf-field .lt { font-size: 13.5px; color: var(--muted); }
+  .qf-field .lt b { color: #e3262b; font-weight: 500; }
+  .qf-field .lt em { font-style: normal; opacity: 0.7; }
+  .qf-field legend.lt { padding: 0; margin-bottom: 6px; }
+  .qf-field input, .qf-field select, .qf-field textarea {
+    font: inherit; font-size: 15px; color: var(--fg); background: rgba(255, 255, 255, 0.035); border: 1px solid var(--line); border-radius: 6px;
+    padding: 12px 14px; width: 100%; min-width: 0; outline: none; transition: border-color 0.2s, background 0.2s; color-scheme: dark;
+  }
+  .qf-field select { appearance: none; -webkit-appearance: none; padding-right: 32px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%239c9ca1' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+  .qf-field input:focus, .qf-field select:focus, .qf-field textarea:focus { border-color: var(--line-strong); background: rgba(255, 255, 255, 0.055); }
+  .qf-field textarea { resize: vertical; min-height: 58px; }
+  .qf-field input::placeholder, .qf-field textarea::placeholder { color: rgba(242, 239, 233, 0.32); }
+  .qf-field .err { display: none; font-size: 12.5px; color: #ff8f88; }
+  .qf-field.invalid .err { display: block; }
+  .qf-field.invalid input, .qf-field.invalid textarea, .qf-field.invalid select { border-color: #e3262b; }
+  .qf-unit { display: grid; grid-template-columns: minmax(0, 1fr) 8.5rem; gap: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips label { display: inline-flex; }
+  .chips input { position: absolute; opacity: 0; width: 1px; height: 1px; padding: 0; border: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); pointer-events: none; }
+  .chips span { font-size: 14px; color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; cursor: pointer; transition: border-color 0.2s, background 0.2s, color 0.2s; }
+  .chips span:hover { border-color: var(--line-strong); }
+  .chips input:checked + span { background: var(--fg); color: #121316; border-color: var(--fg); }
+  .chips input:focus-visible + span { outline: 2px solid var(--fg); outline-offset: 3px; }
+  .qf-field.invalid .chips span { border-color: rgba(227, 38, 43, 0.6); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .qf-actions { margin-top: 24px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .btn.big { padding: 17px 28px; font-size: 16px; }
+  .btn[disabled] { opacity: 0.55; cursor: progress; }
+  .qf-note { margin: 0; font-size: 13px; color: var(--muted); max-width: 34ch; line-height: 1.45; }
+  .qf-note a { color: var(--fg); }
+  .form-status { margin: 16px 0 0; font-size: 14px; line-height: 1.5; min-height: 1.4em; }
+  .form-status.ok { color: var(--fg); }
+  .form-status.err { color: #ff8f88; }
+  .form-status a { color: var(--fg); }
+  .quote-done { border: 1px solid var(--line); border-radius: 12px; padding: 32px; }
+  .quote-done .label { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
+  .quote-done h3 { margin: 0 0 12px; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 500; letter-spacing: -0.02em; }
+  .quote-done .body { margin: 0; opacity: 0.86; line-height: 1.5; }
+  .quote-done .ref { margin: 14px 0 0; font-size: 13.5px; color: var(--muted); }
+  .quote-done .ref b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+  @media (max-width: 900px) {
+    .page-section .wrap.cta { grid-template-columns: 1fr; }
+    .quote-head { padding-left: 20px; padding-right: 20px; }
+    .quote-wrap { grid-template-columns: 1fr; gap: 28px; padding: 6px 20px calc(56px + env(safe-area-inset-bottom, 0px)); }
+    .quote-side { position: static; }
+    .quote-side .body { max-width: none; }
+    .steps, .quote-addr { display: none; }
+    .quote-contact { margin-top: 14px; }
+    .qf-grid { grid-template-columns: 1fr; }
+    .qf-unit { grid-template-columns: minmax(0, 1fr) 7.5rem; }
+    .quote-done { padding: 24px 20px; }
+  }
+
+  /* ---------- privacy notice ---------- */
+  .page-section .wrap.one { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+  .privacy h2 { font-size: clamp(1.7rem, 2.8vw, 2.4rem); }
+  .prose h3 { margin: 28px 0 8px; font-size: 1rem; font-weight: 600; letter-spacing: 0; }
+  .prose p { margin: 0 0 10px; font-size: 15px; line-height: 1.6; color: var(--fg); opacity: 0.86; max-width: 70ch; }
+  .prose a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+  .prose .updated { margin-top: 28px; font-size: 13px; color: var(--muted); }
+  .only-analytics { display: none; }
+  .has-analytics .only-analytics { display: list-item; }
+
+  /* ---------- consent bar (only shown when analytics is configured) ---------- */
+  .consent {
+    position: fixed; z-index: 80; left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    margin: 0 auto; max-width: 720px; padding: 16px 18px;
+    background: #1b1c20; border: 1px solid var(--line-strong); border-radius: 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  }
+  .consent[hidden] { display: none; }
+  .consent p { margin: 0; font-size: 14px; color: var(--fg); flex: 1 1 320px; }
+  .consent a { color: var(--fg); }
+  .consent .choices { display: flex; gap: 10px; }
+  .btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line-strong); }
+  .btn.ghost:hover { background: rgba(255, 255, 255, 0.06); }
+
+  /* ---------- the standard page, used when WebGL or the 3D libraries are unavailable ---------- */
+  .no-3d #stage, .no-3d #loader, .no-3d .rail, .no-3d .scroll-hint, .no-3d .progress { display: none !important; }
+  .no-3d #scroll-space { height: 0; }
+  .no-3d .chapters { position: static; pointer-events: auto; max-width: 1120px; margin: 0 auto; padding: calc(120px + env(safe-area-inset-top, 0px)) 28px 48px; display: grid; gap: 64px; }
+  .no-3d .chapters::after { display: none; }
+  .no-3d .chapter { position: static !important; visibility: visible; opacity: 1; max-width: 40rem; }
+  .no-3d .chapter .no3d-note { display: block; }
+  .no-3d .chapter .fact { display: flex; }
+  .no-3d .topbar { background: linear-gradient(to bottom, rgba(18, 19, 22, 0.96) 60%, rgba(18, 19, 22, 0)); }
+  @media (max-width: 900px) {
+    .no-3d .chapters { padding: 104px 20px 40px; gap: 48px; }
+    .no-3d .chapter { left: auto !important; right: auto !important; bottom: auto !important; }
+    .page-section .wrap.one { max-width: none; }
+    .consent { left: 10px; right: 10px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { #loader .track i { animation: none; width: 100%; } }
+
+  /* ---------- fixed chrome ---------- */
+  .topbar {
+    position: fixed; z-index: 40;
+    left: 0; right: 0; top: 0;
+    padding: calc(18px + env(safe-area-inset-top, 0px)) 28px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: none;
+  }
+  .topbar > * { pointer-events: auto; }
+  .wordmark { display: block; text-decoration: none; color: var(--fg); }
+  .wordmark .logo { display: block; width: 96px; height: 59px; }
+  .topnav { display: flex; align-items: center; gap: 26px; }
+  .topbar .link { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 2px; font-variant-numeric: tabular-nums; }
+  .topbar .link:hover { border-color: var(--fg); }
+  .topbar .tel .short { display: none; }
+  .in-page .topbar { background: linear-gradient(to bottom, rgba(18, 19, 22, 0.96) 60%, rgba(18, 19, 22, 0)); }
+
+  .rail {
+    position: fixed; z-index: 20;
+    right: 28px; top: 50%; transform: translateY(-50%);
+    font-size: 13px; color: var(--muted);
+  }
+  .rail ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .rail li {
+    display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+    cursor: pointer; transition: color 0.3s;
+  }
+  .rail li::after { content: ""; width: 14px; height: 1px; background: var(--line-strong); transition: width 0.3s, background 0.3s; }
+  .rail li.active { color: var(--fg); }
+  .rail li.active::after { width: 28px; background: var(--fg); }
+
+  .progress { position: fixed; z-index: 20; left: 0; bottom: 0; height: 2px; width: 100%; background: transparent; }
+  .progress i { display: block; height: 100%; width: 100%; background: var(--fg); transform-origin: left; transform: scaleX(0); opacity: 0.6; }
+
+  .scroll-hint {
+    position: fixed; z-index: 20;
+    left: 28px; bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+    font-size: 13px; color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scroll-hint::before { content: ""; width: 1px; height: 28px; background: var(--line-strong); }
+
+  /* ---------- copy that sits around the truck ---------- */
+  .chapters { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+  .chapter {
+    position: absolute;
+    max-width: 34rem;
+    visibility: hidden; opacity: 0;
+  }
+  .chapter a, .chapter button { pointer-events: auto; }
+  .chapter .label { margin: 0 0 10px; font-size: 14px; color: var(--muted); }
+  .chapter h1, .chapter h2 {
+    margin: 0 0 14px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  .chapter h1 { font-size: clamp(2.6rem, 5.4vw, 5.2rem); }
+  .chapter h2 { font-size: clamp(1.9rem, 3.6vw, 3.3rem); }
+  .chapter p.body { margin: 0; color: var(--fg); font-size: clamp(1rem, 1.1vw, 1.125rem); line-height: 1.5; max-width: 42ch; opacity: 0.86; }
+  .chapter .fact {
+    margin: 22px 0 0; padding: 0; list-style: none;
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .chapter .fact li { display: flex; flex-direction: column; gap: 2px; }
+  .chapter .fact b { font-weight: 500; font-size: 1.25rem; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .chapter .fact span { font-size: 13px; color: var(--muted); }
+  .chapter .actions { margin-top: 26px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; text-decoration: none;
+    font: 500 15px/1 var(--font);
+    color: var(--bg); background: var(--fg);
+    padding: 14px 22px; border-radius: 999px; border: 0; cursor: pointer;
+  }
+  .btn:hover { background: #fff; }
+  .chapter .quiet { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 2px; font-variant-numeric: tabular-nums; }
+  .chapter .no3d-note { display: none; margin: 14px 0 0; font-size: 13px; color: var(--muted); }
+
+  /* placements per stop (desktop); the camera shifts each vehicle to the other side */
+  #ch-overview { left: 28px; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); max-width: 38rem; }
+  #ch-artic { right: 120px; top: 22vh; max-width: 31rem; }
+  #ch-rigid { left: 28px; top: 22vh; max-width: 33rem; }
+  #ch-sameday { left: 28px; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); max-width: 31rem; }
+  #ch-standards { right: 120px; top: 22vh; max-width: 31rem; }
+  #ch-fleet { left: 28px; top: 14vh; max-width: 36rem; }
+  #ch-quote { left: 28px; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+
+  .fleet { margin: 18px 0 0; padding: 0; }
+  .fleet div { display: grid; grid-template-columns: 12.5rem 1fr; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .fleet div:last-child { border-bottom: 1px solid var(--line); }
+  .fleet dt { margin: 0; font-weight: 500; }
+  .fleet dd { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.4; }
+
+  @media (max-width: 900px) {
+    .rail { display: none; }
+    .topbar { padding-left: 20px; padding-right: 20px; }
+    .wordmark .logo { width: 78px; height: 48px; }
+    .topbar .tel .full { display: none; }
+    .topbar .tel .short { display: inline; }
+    .topnav { gap: 18px; }
+    #loader .logo { width: 162px; height: 100px; }
+    .scroll-hint { left: 20px; }
+    .chapter {
+      left: 20px !important; right: 20px !important; top: auto !important;
+      bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+      max-width: none;
+    }
+    .chapter h1 { font-size: clamp(2.3rem, 11vw, 3.4rem); }
+    .chapter h2 { font-size: clamp(1.6rem, 7.5vw, 2.4rem); }
+    .chapter .fact { gap: 20px; }
+    #ch-overview .fact { display: none; }
+    .fleet div { grid-template-columns: 1fr; gap: 1px; padding: 7px 0; }
+    .fleet dt { font-size: 15px; }
+    .fleet dd { font-size: 12.5px; }
+    #ch-fleet h2 { margin-bottom: 4px; }
+    .chapters::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 58vh;
+      background: linear-gradient(to top, rgba(18,19,22,0.92) 0%, rgba(18,19,22,0.55) 45%, rgba(18,19,22,0) 100%);
+      z-index: -1;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arm-logo" viewBox="0 0 1300 800">
+    <text x="118" y="440" font-family="'Archivo Black', 'Arial Black', Arial, sans-serif" font-size="390" font-weight="900" letter-spacing="-8" fill="#e3262b">ARM</text>
+    <path d="M90 505 H790 C950 505 1050 468 1150 390 C1215 338 1258 303 1300 282" fill="none" stroke="currentColor" stroke-width="24"/>
+    <path d="M45 585 H780 C950 585 1085 545 1172 440 C1212 392 1232 320 1242 252" fill="none" stroke="#e3262b" stroke-width="24"/>
+    <path d="M0 655 H540 C760 655 905 575 1025 455 C1100 380 1180 345 1300 402" fill="none" stroke="#4a2aa8" stroke-width="26"/>
+    <text x="38" y="790" font-family="'Jost', 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif" font-size="150" font-weight="700" letter-spacing="7" fill="currentColor">TRANSPORT</text>
+  </symbol>
+</svg>
+
+<div id="loader" role="status" aria-live="polite">
+  <svg class="logo" viewBox="0 0 1300 800" aria-label="ARM Transport"><use href="#arm-logo"/></svg>
+  <div class="track"><i></i></div>
+  <div class="note" id="loader-note">Preparing the fleet</div>
+</div>
+
+<canvas id="stage" aria-label="Real-time 3D ARM Transport fleet. Scroll to walk around each vehicle."></canvas>
+
+<header class="topbar">
+  <a class="wordmark" href="#top" data-scroll-top aria-label="ARM Transport, back to top"><svg class="logo" viewBox="0 0 1300 800" aria-hidden="true"><use href="#arm-logo"/></svg></a>
+  <nav class="topnav" aria-label="Site">
+    <a class="link" href="#ch-fleet" data-scroll-fleet>Fleet</a>
+    <a class="link tel" href="tel:+441617060601"><span class="full">0161 706 0601</span><span class="short">Call us</span></a>
+    <a class="link" href="#quote" data-quote-open>Get a quote</a>
+  </nav>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <ol>
+    <li data-stop="0" tabindex="0">Overview</li>
+    <li data-stop="1" tabindex="0">Full loads</li>
+    <li data-stop="2" tabindex="0">Pallets</li>
+    <li data-stop="3" tabindex="0">Same-day</li>
+    <li data-stop="4" tabindex="0">Standards</li>
+    <li data-stop="5" tabindex="0">Fleet</li>
+    <li data-stop="6" tabindex="0">Quote</li>
+  </ol>
+</nav>
+
+<!--
+  COPY NOTES FOR ARM TRANSPORT — please confirm or correct before launch.
+  Every "CONFIRM" comment below marks wording that describes a service, vehicle or standard that has not been
+  verified with the company. Nothing numerical or contractual has been left in the visible text.
+-->
+<main class="chapters" id="main">
+  <section class="chapter" id="ch-overview">
+    <p class="label">ARM Transport · Manchester</p>
+    <h1>From a single pallet to a full load.</h1>
+    <!-- CONFIRM: the services offered (pallet distribution, part loads, full loads, same-day) and the coverage area -->
+    <p class="body">Haulage and pallet distribution from our Manchester yard, with a fleet sized for everything from a single pallet to a full articulated load. Scroll down and each part of the fleet drives in to show you what it does.</p>
+    <p class="no3d-note">The interactive 3D fleet view is not available in this browser, so this is the standard version of the page.</p>
+    <ul class="fact"><li><b>Manchester</b><span>Yard 1, Excel Center, M18 8DB</span></li><li><b>Pallets to full loads</b><span>vans, rigids and articulated vehicles</span></li></ul>
+    <div class="actions"><a class="btn" href="#quote" data-quote-open>Get a quote</a><a class="quiet" href="tel:+441617060601">Call 0161 706 0601</a></div>
+  </section>
+
+  <section class="chapter" id="ch-artic">
+    <p class="label">Full and part loads &middot; 44 t articulated curtainsider</p>
+    <h2>Full loads, part loads, long distance.</h2>
+    <!-- CONFIRM: full-load / part-load and trunking services offered, and the coverage area -->
+    <p class="body">Our Class 1 units pull 13.6 m curtainsider trailers for full and part loads, trunking and long-distance work. Curtain sides mean forklift loading from either side, so collections are quick and nothing is dragged across the deck.</p>
+    <ul class="fact"><li><b>Up to 26 pallets</b><span>on a 13.6 m trailer</span></li><li><b>Side loading</b><span>forklift access from either side</span></li></ul>
+  </section>
+
+  <section class="chapter" id="ch-rigid">
+    <p class="label">Pallet distribution &middot; 18 t rigid curtainsider with tail-lift</p>
+    <h2>Pallets, collected and delivered.</h2>
+    <!-- CONFIRM: pallet services offered, delivery options (next day, economy, timed), tail-lift availability, proof-of-delivery process -->
+    <p class="body">Quarter, half and full pallets on 18-tonne rigid curtainsiders. With a tail-lift and pump truck on board we deliver to addresses without a forklift, and proof of delivery is captured once the goods are signed for.</p>
+    <ul class="fact"><li><b>Tail-lift</b><span>no forklift needed at delivery</span></li><li><b>Proof of delivery</b><span>signed for at the door</span></li></ul>
+  </section>
+
+  <section class="chapter" id="ch-sameday">
+    <p class="label">Same day and urgent &middot; 3.5 t MAN TGE van</p>
+    <h2>Same day, direct, on a dedicated van.</h2>
+    <!-- CONFIRM: same-day / dedicated van service offered, collection lead time, tracking -->
+    <p class="body">For consignments that cannot wait: a dedicated van, collected and driven straight to the delivery address with no depot in between, and signed for at the other end.</p>
+    <ul class="fact"><li><b>Direct</b><span>no depot, no transfers</span></li><li><b>Dedicated van</b><span>your consignment only</span></li></ul>
+  </section>
+
+  <section class="chapter" id="ch-standards">
+    <p class="label">Fleet standards &middot; MAN TGX 6&times;2 tractor unit</p>
+    <h2>Maintained to operator-licence standards.</h2>
+    <!-- CONFIRM: inspection interval, emissions standard (e.g. Euro 6), telematics / tracking, in-house drivers -->
+    <p class="body">Scheduled safety inspections, daily walk-round checks and a logged defect system keep the fleet on the road. Our HGV drivers hold the Driver CPC and drive on tachographs, as the law requires.</p>
+    <ul class="fact"><li><b>Inspected and checked</b><span>scheduled inspections, daily walk-rounds</span></li><li><b>Driver CPC</b><span>every HGV driver</span></li></ul>
+  </section>
+
+  <section class="chapter" id="ch-fleet">
+    <p class="label">The fleet</p>
+    <h2>Four vehicle types, one standard.</h2>
+    <!-- CONFIRM: which vehicle types ARM Transport actually operates, their weights and how many of each -->
+    <dl class="fleet">
+      <div><dt>44 t articulated curtainsider</dt><dd>Class 1. MAN TGX tractor unit with a 13.6 m curtainsider trailer. Full and part loads, trunking and long-distance work, loaded from either side.</dd></div>
+      <div><dt>18 t rigid curtainsider</dt><dd>Class 2. MAN TGM with curtain sides and a tail-lift. Pallet distribution and multi-drop rounds, delivered with a pump truck where there is no forklift.</dd></div>
+      <div><dt>3.5 t MAN TGE van</dt><dd>Same-day and urgent consignments driven direct. Smaller loads that do not need an HGV.</dd></div>
+      <div><dt>6&times;2 tractor unit</dt><dd>MAN TGX. Pulls our trailers: trailer swaps and trunk work.</dd></div>
+    </dl>
+  </section>
+
+  <section class="chapter" id="ch-quote">
+    <p class="label">Get a quote</p>
+    <h2>Ready when you are.</h2>
+    <p class="body">A few details about the load and the two addresses are all we need to price the job.</p>
+    <div class="actions">
+      <a class="btn" href="#quote" data-quote-open>Request my quote</a>
+      <a class="quiet" href="tel:+441617060601">Call 0161 706 0601</a>
+    </div>
+  </section>
+</main>
+
+<div class="scroll-hint" aria-hidden="true">Scroll to walk around the fleet</div>
+<div class="progress" aria-hidden="true"><i></i></div>
+
+<div id="top"></div>
+<div id="scroll-space" aria-hidden="true"></div>
+
+<section class="page-section" id="quote">
+  <div class="wrap cta">
+    <div>
+      <p class="label">Get a quote</p>
+      <h2>Ready for a price?</h2>
+      <p class="body">Tell us the collection and delivery addresses, what is moving and when. The form takes a couple of minutes and we reply by email or phone.</p>
+      <div class="actions"><a class="btn big" href="#quote" data-quote-open>Request my quote</a><a class="quiet" href="tel:+441617060601">Call 0161 706 0601</a></div>
+    </div>
+    <ul class="contact-list">
+      <li><b>Phone</b><a href="tel:+441617060601">0161 706 0601</a></li>
+      <li><b>Email</b><a href="mailto:info@armtransport.co.uk" data-lead-email>info@armtransport.co.uk</a></li>
+      <li><b>Yard</b><span>Yard 1, Excel Center, Preston Street, Manchester, M18 8DB<br><a href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x487bb1022de6242b:0xb230a338502933ef" target="_blank" rel="noopener">Open in Google Maps</a></span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="page-section privacy" id="privacy">
+  <div class="wrap one">
+    <p class="label">Privacy notice</p>
+    <h2>How we handle your details.</h2>
+    <div class="prose">
+      <h3>Who we are</h3>
+      <p>ARM Transport, Yard 1, Excel Center, Preston Street, Manchester, M18 8DB. We are the data controller for any personal information collected through this website. You can contact us on <a href="tel:+441617060601">0161 706 0601</a>, by email at <a href="mailto:info@armtransport.co.uk" data-lead-email>info@armtransport.co.uk</a>, or by post at the address above.</p>
+
+      <h3>What we collect and why</h3>
+      <p>When you request a quote we ask for your name, a phone number or email address, your company (optional), the collection and delivery locations, what is being moved and when it is needed. We use these details only to price the job, reply to you and, if you go ahead, arrange the work. Our lawful basis is taking steps at your request before entering into a contract. We do not sell your details or use them for marketing.</p>
+
+      <h3>How enquiries reach us</h3>
+      <!-- CONFIRM: name the form-processing service you connect (e.g. Formspree, Netlify Forms) and your email provider -->
+      <p>A quote request reaches us as an email from your own email app, or through a form-processing service acting on our behalf if we use one, and is then held in our email and business systems. If you call us, we may note down what you tell us so that we can quote accurately.</p>
+
+      <h3>How long we keep it</h3>
+      <!-- CONFIRM: your actual retention period for enquiries and for completed jobs -->
+      <p>We keep enquiry details for as long as we need them to answer the enquiry and, where work is carried out, for as long as our business and tax records require.</p>
+
+      <h3>Your rights</h3>
+      <p>Under UK data protection law you can ask to see the personal information we hold about you, have it corrected or deleted, or object to how we use it. Contact us using the details above. If you are unhappy with how we have handled your information, you can complain to the Information Commissioner&rsquo;s Office at <a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a>.</p>
+
+      <p class="updated">Last updated: October 2026</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <svg class="logo" viewBox="0 0 1300 800" aria-label="ARM Transport"><use href="#arm-logo"/></svg>
+      <p>ARM Transport · Yard 1, Excel Center, Preston Street, Manchester, M18 8DB</p>
+      <!-- CONFIRM, then uncomment: legal entity name, company registration number, VAT number, operator licence number
+      <p>ARM Transport Ltd · Registered in England and Wales No. ________ · VAT No. ________ · Operator licence ________</p>
+      -->
+      <p>&copy; <span data-year>2026</span> ARM Transport. All rights reserved.</p>
+    </div>
+    <ul>
+      <li><a href="tel:+441617060601">0161 706 0601</a></li>
+      <li><a href="mailto:info@armtransport.co.uk" data-lead-email>info@armtransport.co.uk</a></li>
+      <li><a href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x487bb1022de6242b:0xb230a338502933ef" target="_blank" rel="noopener">Find us on Google Maps</a></li>
+      <li><a href="#privacy">Privacy notice</a></li>
+      <li class="only-analytics"><a href="#privacy" data-consent-change>Cookie settings</a></li>
+      <li><a href="#top" data-scroll-top>Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- ============================================================================================
+     Quote page: opened by every "Get a quote" button (and by visiting #quote). Full screen, scrollable.
+     Delivery of submissions is configured in CONFIG.leadEndpoint / CONFIG.leadEmail at the top of the script.
+     ============================================================================================ -->
+<div class="quote-page" id="quote-page" role="dialog" aria-modal="true" aria-labelledby="quote-title" hidden>
+  <header class="quote-head">
+    <svg class="logo" viewBox="0 0 1300 800" aria-label="ARM Transport"><use href="#arm-logo"/></svg>
+    <button class="quote-close" type="button" data-quote-close>Back to site</button>
+  </header>
+
+  <div class="quote-wrap">
+    <aside class="quote-side">
+      <p class="label">Request a quote</p>
+      <h2 id="quote-title">Tell us what needs moving.</h2>
+      <p class="body">The more you can tell us about the load and the two addresses, the more accurate the price. We reply by email or phone.</p>
+      <ol class="steps">
+        <li><b>Send the details</b><span>takes a couple of minutes</span></li>
+        <li><b>We price the job</b><span>and come back to you with a quote</span></li>
+        <li><b>Book it</b><span>reply to confirm and we schedule the vehicle</span></li>
+      </ol>
+      <div class="contact-cards">
+        <a class="contact-card" href="tel:+441617060601"><small>Call us</small>0161 706 0601</a>
+        <a class="contact-card" href="mailto:info@armtransport.co.uk?subject=Quote%20request" data-lead-email><small>Email us</small>info@armtransport.co.uk</a>
+      </div>
+      <p class="quote-addr">ARM Transport · Yard 1, Excel Center, Preston Street, Manchester, M18 8DB</p>
+    </aside>
+
+    <div class="quote-main">
+      <!-- Netlify Forms registers this form automatically when the site is hosted on Netlify (CONFIG.leadEndpoint = 'netlify'). -->
+      <form class="quote-form" id="quote-form" name="quote" method="POST" data-netlify="true" netlify-honeypot="_gotcha" novalidate>
+        <input type="hidden" name="form-name" value="quote">
+        <input type="hidden" name="reference" value="">
+
+        <p class="qf-mode" id="qf-mode" hidden>Fill in the details and press <b>Request my quote</b>: your email app opens with everything filled in, addressed to <a href="mailto:info@armtransport.co.uk" data-lead-email>info@armtransport.co.uk</a>. Just press send.</p>
+
+        <section class="qf-section" aria-labelledby="qf-h1">
+          <h3 id="qf-h1"><span>1</span>Your details</h3>
+          <div class="qf-grid">
+            <label class="qf-field"><span class="lt">Full name <b>*</b></span><input name="name" type="text" autocomplete="name" required><span class="err">Please enter your name.</span></label>
+            <label class="qf-field"><span class="lt">Company name <em>(optional)</em></span><input name="company" type="text" autocomplete="organization"></label>
+            <label class="qf-field"><span class="lt">Email address <b>*</b></span><input name="email" type="email" autocomplete="email" inputmode="email" required><span class="err">Please enter a valid email address.</span></label>
+            <label class="qf-field"><span class="lt">Phone number <b>*</b></span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" required><span class="err">Please enter a phone number we can call.</span></label>
+          </div>
+        </section>
+
+        <section class="qf-section" aria-labelledby="qf-h2">
+          <h3 id="qf-h2"><span>2</span>Collection</h3>
+          <div class="qf-grid">
+            <label class="qf-field"><span class="lt">Collection postcode <b>*</b></span><input name="collection_postcode" type="text" autocomplete="off" autocapitalize="characters" placeholder="e.g. M18 8DB" required><span class="err">Please enter the collection postcode.</span></label>
+            <label class="qf-field"><span class="lt">Collection date <b>*</b></span><input name="collection_date" type="date" required><span class="err">Please choose a collection date from today onwards.</span></label>
+            <label class="qf-field span"><span class="lt">Collection address <b>*</b></span><textarea name="collection_address" rows="2" autocomplete="off" placeholder="Company or site name, street, town" required></textarea><span class="err">Please enter the full collection address.</span></label>
+          </div>
+        </section>
+
+        <section class="qf-section" aria-labelledby="qf-h3">
+          <h3 id="qf-h3"><span>3</span>Delivery</h3>
+          <div class="qf-grid">
+            <label class="qf-field"><span class="lt">Delivery postcode <b>*</b></span><input name="delivery_postcode" type="text" autocomplete="off" autocapitalize="characters" placeholder="e.g. B1 1AA" required><span class="err">Please enter the delivery postcode.</span></label>
+            <label class="qf-field"><span class="lt">Delivery date <em>(optional)</em></span><input name="delivery_date" type="date"><span class="err">Delivery cannot be before collection.</span></label>
+            <label class="qf-field span"><span class="lt">Delivery address <b>*</b></span><textarea name="delivery_address" rows="2" autocomplete="off" placeholder="Company or site name, street, town" required></textarea><span class="err">Please enter the full delivery address.</span></label>
+          </div>
+        </section>
+
+        <section class="qf-section" aria-labelledby="qf-h4">
+          <h3 id="qf-h4"><span>4</span>The load</h3>
+          <div class="qf-grid">
+            <label class="qf-field span"><span class="lt">Type of load or goods <b>*</b></span><input name="goods" type="text" placeholder="e.g. palletised building materials, machinery, boxed stock" required><span class="err">Please describe what is being moved.</span></label>
+            <div class="qf-field">
+              <span class="lt" id="qf-qty-l">Number of pallets or items <b>*</b></span>
+              <div class="qf-unit">
+                <input name="quantity" type="number" min="1" step="1" inputmode="numeric" aria-labelledby="qf-qty-l" required>
+                <select name="quantity_unit" aria-label="Unit"><option>pallets</option><option>items</option><option>boxes</option><option>crates</option><option>bags</option></select>
+              </div>
+              <span class="err">Please enter how many pallets or items.</span>
+            </div>
+            <div class="qf-field">
+              <span class="lt" id="qf-wt-l">Total weight <b>*</b></span>
+              <div class="qf-unit">
+                <input name="weight" type="number" min="0.1" step="any" inputmode="decimal" aria-labelledby="qf-wt-l" required>
+                <select name="weight_unit" aria-label="Unit"><option>kg</option><option>tonnes</option></select>
+              </div>
+              <span class="err">Please enter the total weight (an estimate is fine).</span>
+            </div>
+            <fieldset class="qf-field span qf-choice">
+              <legend class="lt">Vehicle required <b>*</b></legend>
+              <div class="chips">
+                <label><input type="radio" name="vehicle" value="Van"><span>Van</span></label>
+                <label><input type="radio" name="vehicle" value="7.5 tonne"><span>7.5 tonne</span></label>
+                <label><input type="radio" name="vehicle" value="18 tonne"><span>18 tonne</span></label>
+                <label><input type="radio" name="vehicle" value="Articulated lorry"><span>Articulated lorry</span></label>
+                <label><input type="radio" name="vehicle" value="Unsure"><span>Unsure, please advise</span></label>
+              </div>
+              <span class="err">Please choose a vehicle, or "Unsure".</span>
+            </fieldset>
+            <fieldset class="qf-field span qf-choice">
+              <legend class="lt">Special requirements <em>(tick any that apply)</em></legend>
+              <div class="chips">
+                <label><input type="checkbox" name="requirements" value="Tail-lift needed"><span>Tail-lift needed</span></label>
+                <label><input type="checkbox" name="requirements" value="No forklift at collection"><span>No forklift at collection</span></label>
+                <label><input type="checkbox" name="requirements" value="No forklift at delivery"><span>No forklift at delivery</span></label>
+                <label><input type="checkbox" name="requirements" value="Timed delivery"><span>Timed delivery</span></label>
+                <label><input type="checkbox" name="requirements" value="Fragile goods"><span>Fragile goods</span></label>
+                <label><input type="checkbox" name="requirements" value="Hazardous goods (ADR)"><span>Hazardous goods (ADR)</span></label>
+                <label><input type="checkbox" name="requirements" value="Weekend or out of hours"><span>Weekend or out of hours</span></label>
+              </div>
+            </fieldset>
+            <label class="qf-field span"><span class="lt">Additional information <em>(optional)</em></span><textarea name="notes" rows="3" placeholder="Access restrictions, booking-in references, dimensions, anything else we should know"></textarea></label>
+          </div>
+        </section>
+
+        <!-- Honeypot: hidden from people, filled in by bots. Formspree and Netlify both drop submissions where it is set. -->
+        <label class="hp" aria-hidden="true"><span class="lt">Leave this field empty</span><input name="_gotcha" type="text" tabindex="-1" autocomplete="off"></label>
+
+        <div class="qf-actions">
+          <button class="btn big" type="submit">Request my quote</button>
+          <p class="qf-note">Your details are used only to price and arrange this job. <a href="#privacy" data-quote-close-to="privacy">Privacy notice</a></p>
+        </div>
+        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+      </form>
+
+      <div class="quote-done" id="quote-done" hidden>
+        <p class="label">Request sent</p>
+        <h3>Thanks, <span data-done-name>we have your request</span>.</h3>
+        <p class="body" data-done-text>Your quote request has been sent to ARM Transport. We will reply by email or phone with a price.</p>
+        <p class="ref">Your reference: <b data-done-ref></b>. Quote it if you call us.</p>
+        <div class="qf-actions">
+          <button class="btn" type="button" data-quote-close>Back to site</button>
+          <button class="btn ghost" type="button" data-quote-again>Send another request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="consent" id="consent" hidden role="region" aria-label="Cookie consent">
+  <p>Can we use analytics cookies to understand how this site is used? Nothing is set until you choose. <a href="#privacy">Privacy notice</a></p>
+  <div class="choices">
+    <button class="btn" type="button" data-consent="yes">Accept</button>
+    <button class="btn ghost" type="button" data-consent="no">Decline</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================================
+     Configuration — everything a non-developer may need to change is here.
+     ========================================================================= */
+  const CONFIG = {
+    company: {
+      name: 'ARM Transport',
+      phoneDisplay: '0161 706 0601',
+      phoneTel: '+441617060601',
+      address: 'Yard 1, Excel Center, Preston Street, Manchester, M18 8DB',
+      mapUrl: 'https://maps.google.com/maps/place//data=!4m2!3m1!1s0x487bb1022de6242b:0xb230a338502933ef'
+    },
+
+    // ---- Quote form delivery (see README: "Connect the quote form") ------------------------------
+    // leadEndpoint decides how a completed quote request is sent:
+    //   ''                               NOT CONNECTED: the form opens a pre-filled email to leadEmail in the
+    //                                    visitor's email app, and says so above the form
+    //   'https://formspree.io/f/XXXXXXXX' Formspree (recommended): the request is emailed to the address set in
+    //                                    your Formspree form; form IDs are public by design, nothing secret is stored here
+    //   'netlify'                        Netlify Forms, when the site is hosted on Netlify
+    //   any other https URL              Basin, Getform, a Make/Zapier webhook or your own API: JSON POST
+    // leadEmail is the company inbox: shown on the page, used for the email fallback and reply addresses.
+    // leadFields are extra fields sent with every submission (normally empty).
+    leadEndpoint: '',
+    leadEmail: 'info@armtransport.co.uk',
+    leadFields: {},
+
+    // ---- Analytics (optional) ------------------------------------------------------------------
+    // Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'. Leave empty = no analytics, no cookies,
+    // no banner. When set, visitors see a consent bar and GA only loads after they accept.
+    analytics: { gtagId: '' },
+
+    // ---- Branding ---------------------------------------------------------------------------------
+    // logoUrl: the official ARM logo as an SVG or transparent PNG, self-hosted (e.g. 'assets/arm-logo.svg'). When set it
+    // replaces the code-drawn logo on the built-in vehicles (cab doors, body sides, curtains) and is applied to any mesh
+    // or material in a loaded model whose name contains "logo" (e.g. a decal quad on the cab door named "ARM_logo").
+    logoUrl: 'assets/arm-logo.png',
+
+    // ---- Optional photoreal GLB models, one per vehicle key --------------------------------------
+    //   tractor      MAN TGX tractor unit on its own (the hero and the Standards stop)
+    //   artic        MAN TGX tractor + 13.6 m curtainsider trailer coupled, as one model (the Full loads stop)
+    //   trailer      13.6 m trailer on its own, coupled to `tractor` when `artic` is empty
+    //   curtainsider MAN TGM 18 t rigid curtainsider with tail-lift (the Pallets stop)
+    //   van          MAN TGE van (the Same-day stop)
+    // Self-host next to this file (e.g. 'models/artic.glb'). Until a slot is filled, the built-in vehicle is shown.
+    // modelBase: where the models/ folder is served from. '' = next to index.html on the same domain (normal).
+    // Use an absolute URL only if the models live elsewhere, e.g. 'https://www.armtransport.co.uk/' (the server must send
+    // Access-Control-Allow-Origin for the site's domain in that case).
+    modelBase: '',
+    models: { tractor: 'models/man_tgx_tractor.glb', artic: '', trailer: 'models/man_curtainsider_trailer.glb', curtainsider: 'models/man_tgm_rigid_curtainsider.glb', van: 'models/man_tge_van.glb' },
+    // lighter versions (fewer triangles, 1K textures) used on phones and small touch screens; same slots
+    modelsLite: { tractor: 'models/lite/man_tgx_tractor.glb', artic: '', trailer: 'models/lite/man_curtainsider_trailer.glb', curtainsider: 'models/lite/man_tgm_rigid_curtainsider.glb', van: 'models/lite/man_tge_van.glb' },
+    // real length in metres each model is scaled to (the MAN models are built at 1:1, so these equal their file lengths)
+    modelLengths: { tractor: 6.49, artic: 17.09, trailer: 13.755, curtainsider: 10.77, van: 6.21 },
+    // How each file is read. `forward` is the axis the vehicle's nose points along inside the file; `wheels`
+    // matches the nodes that should roll (one entry per wheel group) and `wheelAxis` is their local axle axis;
+    // `doors` matches rear-door nodes pivoted at their hinge (rotated open by the site when no door clip exists);
+    // the material patterns pick which materials get the showroom treatment (clearcoat paint, real glass, chrome, rubber).
+    // `clips` maps scroll-driven values to animation clips baked into the GLB (0 = closed/in, 1 = open/out):
+    //   doors, curtain, pallets. Name the clips in Blender e.g. "DoorsOpen", "CurtainOpen", "PalletsOut" and the
+    //   site scrubs their time with the page scroll. Any key can be overridden per model:
+    //   modelOptions.trailer = { forward: '-z', length: 13.6, offset: [0, 0, 0.3], yaw: 0 }   (length in m, yaw in degrees)
+    modelOptions: {
+      default: {
+        forward: '+z', wheels: /wheel|tyre|tire|rim|hub|rad_|roue/i, wheelAxis: 'x', doors: /rear.?door|door.?rear|back.?door|porte|tuer|tür/i,
+        clips: { doors: /door/i, curtain: /curtain/i, pallets: /pallet|unload|forklift/i },
+        paint: /paint|body|cab|carross|lack|lackier|shell|panel/i, glass: /glass|window|windscreen|windshield|wind_|verre|scheibe|vitre/i,
+        chrome: /chrome|chrom|mirror/i, rubber: /tyre|tire|rubber|reifen|pneu|tread/i, lamp: /lamp|light|headl|tail/i
+      },
+      // the MAN models (built in Blender, metres, nose along +z, wheels on y = 0): each one is centred on the turntable
+      tractor: { forward: '+z', offset: [0, 0, 0] },        // MAN TGX tractor unit (hero and Standards stop)
+      artic: { forward: '+z', offset: [0, 0, 0] },          // MAN TGX + curtainsider trailer in one file (not used: the trailer file + the tractor file are coupled by the site instead)
+      trailer: { forward: '+z', offset: [0, 0, 0] },        // 13.6 m curtainsider trailer on its own, coupled to the tractor unit (Full loads stop)
+      curtainsider: { forward: '+z', offset: [0, 0, 0] },   // MAN TGM 18 t rigid curtainsider with tail-lift (Pallets stop)
+      van: { forward: '+z', offset: [0, 0, 0] }             // MAN TGE van (Same-day stop)
+    },
+    doorPattern: /door|porte|tuer|tür/i,
+    doorAngle: 1.85,
+
+    // ---- Look ------------------------------------------------------------------------------------
+    colors: {
+      background: 0x121316,    // must match the page background in the CSS
+      cabPaint: 0xeeeeea,      // gloss white, same family as the box panels
+      bodyPanel: 0xe8e8e4,
+      strap: 0xe0621b,
+      drum: 0x1f4f8f
+    },
+    exposure: 1.05,
+    keyLight: 2.1,
+    envIntensity: 1.0
+  };
+
+  // Library sources: first URL is tried, the next ones are mirrors of the same version.
+  const LIBS = {
+    three: ['https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', 'https://unpkg.com/three@0.128.0/build/three.min.js'],
+    reflector: ['https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/objects/Reflector.js', 'https://unpkg.com/three@0.128.0/examples/js/objects/Reflector.js'],
+    gsap: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js', 'https://unpkg.com/gsap@3.12.5/dist/gsap.min.js'],
+    scrollTrigger: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', 'https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js'],
+    gltf: ['https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js', 'https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js'],
+    draco: ['https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js', 'https://unpkg.com/three@0.128.0/examples/js/loaders/DRACOLoader.js'],
+    meshopt: ['https://cdn.jsdelivr.net/npm/meshoptimizer@0.18.1/meshopt_decoder.js', 'https://unpkg.com/meshoptimizer@0.18.1/meshopt_decoder.js']
+  };
+
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const smallScreen = () => window.innerWidth < 900;
+  const D2R = Math.PI / 180;
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const STOPS = [0, 0.145, 0.28, 0.485, 0.65, 0.82, 0.94];
+
+  const loaderEl = document.getElementById('loader');
+  const noteEl = document.getElementById('loader-note');
+  const canvas = document.getElementById('stage');
+  const quoteSection = document.getElementById('quote');
+  const fleetChapter = document.getElementById('ch-fleet');
+
+  /* =========================================================================
+     Site plumbing that must work with or without the 3D view.
+     ========================================================================= */
+  function loadScript(urls, i) {
+    i = i || 0;
+    return new Promise((resolve, reject) => {
+      if (i >= urls.length) { reject(new Error('could not load ' + urls[0].split('/').pop())); return; }
+      const el = document.createElement('script');
+      el.src = urls[i];
+      el.onload = () => resolve(urls[i]);
+      el.onerror = () => { el.remove(); loadScript(urls, i + 1).then(resolve, reject); };
+      document.head.appendChild(el);
+    });
+  }
+
+  // Without 3D the chapters become ordinary page sections, so the site still reads as a site.
+  let degraded = false;
+  function degrade(reason) {
+    if (degraded) return;
+    degraded = true;
+    if (reason) console.warn('ARM Transport: showing the standard page instead of the 3D view (' + reason + ').');
+    document.body.classList.add('no-3d');
+    window.scrollTo(0, 0);
+  }
+
+  const smooth = () => (reduceMotion ? 'auto' : 'smooth');
+  const scrollToEl = (el) => { if (el) el.scrollIntoView({ behavior: smooth(), block: 'start' }); };
+  // The 3D view replaces this with a version that scrolls to a point on its timeline.
+  let scrollToProgress = function (p) {
+    if (p >= 0.95) scrollToEl(quoteSection);
+    else if (p >= STOPS[5]) scrollToEl(fleetChapter);
+    else window.scrollTo({ top: 0, behavior: smooth() });
+  };
+
+  const railItems = Array.prototype.slice.call(document.querySelectorAll('.rail li'));
+  railItems.forEach((li, i) => {
+    const go = () => scrollToProgress(STOPS[i] + (i === 0 ? 0 : 0.02));
+    li.addEventListener('click', go);
+    li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+  document.querySelectorAll('[data-scroll-fleet]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollToProgress(STOPS[5] + 0.02); }));
+  document.querySelectorAll('[data-scroll-top]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollToProgress(0); }));
+  document.querySelectorAll('[data-year]').forEach(el => { el.textContent = String(new Date().getFullYear()); });
+
+  /* ---- the quote page ---- */
+  const quotePage = document.getElementById('quote-page');
+  const form = document.getElementById('quote-form');
+  const doneEl = document.getElementById('quote-done');
+  const modeNote = document.getElementById('qf-mode');
+  const statusEl = document.getElementById('form-status');
+  const connected = !!CONFIG.leadEndpoint;
+  const leadEmail = (CONFIG.leadEmail || '').trim();
+  const PHONE = CONFIG.company.phoneDisplay;
+
+  // the configured email is shown wherever the page mentions it
+  document.querySelectorAll('[data-lead-email]').forEach(el => {
+    if (!leadEmail) { el.closest('p') ? el.closest('p').hidden = true : el.hidden = true; return; }
+    const label = el.querySelector('small');
+    el.textContent = leadEmail;
+    if (label) el.insertBefore(label, el.firstChild);
+    if (el.tagName === 'A') el.href = 'mailto:' + leadEmail + (el.classList.contains('contact-card') ? '?subject=' + encodeURIComponent('Quote request') : '');
+  });
+
+  try { history.scrollRestoration = 'manual'; } catch (err) { /* older browsers */ }
+  let quoteOpen = false, openedAt = 0, pushedState = false, lastFocus = null;
+  function openQuote() {
+    if (!quotePage || quoteOpen) return;
+    quoteOpen = true;
+    openedAt = Date.now();
+    lastFocus = document.activeElement;
+    quotePage.hidden = false;
+    document.body.classList.add('quote-open');
+    quotePage.scrollTop = 0;
+    if (location.hash !== '#quote') { try { history.pushState({ quote: true }, '', '#quote'); pushedState = true; } catch (err) { /* file:// */ } }
+    const first = form && !form.hidden ? form.querySelector('input[name="name"]') : quotePage.querySelector('[data-quote-close]');
+    setTimeout(() => { if (first) first.focus({ preventScroll: true }); }, 50);
+  }
+  function closeQuote(fromHistory) {
+    if (!quotePage || !quoteOpen) return;
+    quoteOpen = false;
+    quotePage.hidden = true;
+    document.body.classList.remove('quote-open');
+    if (!fromHistory && location.hash === '#quote') {
+      if (pushedState) history.back(); else { try { history.replaceState(null, '', location.pathname + location.search); } catch (err) { /* ignore */ } }
+    }
+    pushedState = false;
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  document.querySelectorAll('[data-quote-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openQuote(); }));
+  document.querySelectorAll('[data-quote-close]').forEach(b => b.addEventListener('click', () => closeQuote(false)));
+  document.querySelectorAll('[data-quote-close-to]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.getElementById(a.getAttribute('data-quote-close-to'));
+    closeQuote(false);
+    setTimeout(() => scrollToEl(target), 150);
+  }));
+  window.addEventListener('keydown', e => { if (e.key === 'Escape' && quoteOpen) closeQuote(false); });
+  window.addEventListener('popstate', () => { if (location.hash === '#quote') openQuote(); else if (quoteOpen) closeQuote(true); });
+  window.addEventListener('hashchange', () => { if (location.hash === '#quote') openQuote(); });
+  if (location.hash === '#quote') openQuote();
+
+  if (form) {
+    if (modeNote) modeNote.hidden = connected || !leadEmail;
+    const today = () => new Date().toISOString().slice(0, 10);
+    const F = (name) => form.elements[name];
+    if (F('collection_date')) F('collection_date').min = today();
+    if (F('delivery_date')) F('delivery_date').min = today();
+    if (F('collection_date') && F('delivery_date')) F('collection_date').addEventListener('change', () => { F('delivery_date').min = F('collection_date').value || today(); });
+    ['collection_postcode', 'delivery_postcode'].forEach(n => { if (F(n)) F(n).addEventListener('blur', () => { F(n).value = F(n).value.trim().toUpperCase().replace(/\s+/g, ' '); }); });
+
+    const fieldWrap = (el) => el.closest('.qf-field');
+    const setInvalid = (el, bad, msg) => {
+      const w = fieldWrap(el);
+      if (!w) return;
+      w.classList.toggle('invalid', bad);
+      if (bad && msg) { const err = w.querySelector('.err'); if (err) err.textContent = msg; }
+      if (el.setAttribute) el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+    };
+    form.querySelectorAll('input, textarea, select').forEach(el => {
+      el.addEventListener('input', () => { if (fieldWrap(el) && fieldWrap(el).classList.contains('invalid')) validate(el.name); });
+      el.addEventListener('change', () => { if (fieldWrap(el) && fieldWrap(el).classList.contains('invalid')) validate(el.name); });
+    });
+
+    const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    const isPhone = (v) => { const d = v.replace(/[^\d]/g, ''); return d.length >= 10 && d.length <= 15; };
+    const value = (n) => (F(n) && typeof F(n).value === 'string') ? F(n).value.trim() : '';
+    const checked = (n) => Array.prototype.filter.call(form.querySelectorAll('[name="' + n + '"]'), i => i.checked).map(i => i.value);
+
+    // returns the list of invalid field names; `only` limits the check to one field (live re-validation)
+    function validate(only) {
+      const bad = [];
+      const rule = (n, ok, msg) => {
+        if (only && only !== n) return;
+        const el = form.querySelector('[name="' + n + '"]');
+        if (!el) return;
+        setInvalid(el, !ok, msg);
+        if (!ok) bad.push(n);
+      };
+      rule('name', value('name').length >= 2, 'Please enter your name.');
+      rule('email', isEmail(value('email')), 'Please enter a valid email address.');
+      rule('phone', isPhone(value('phone')), 'Please enter a phone number we can call.');
+      rule('collection_postcode', value('collection_postcode').length >= 3, 'Please enter the collection postcode.');
+      rule('collection_address', value('collection_address').length >= 5, 'Please enter the full collection address.');
+      const cd = value('collection_date');
+      rule('collection_date', !!cd && cd >= today(), cd ? 'Collection cannot be in the past.' : 'Please choose a collection date.');
+      rule('delivery_postcode', value('delivery_postcode').length >= 3, 'Please enter the delivery postcode.');
+      rule('delivery_address', value('delivery_address').length >= 5, 'Please enter the full delivery address.');
+      const dd = value('delivery_date');
+      rule('delivery_date', !dd || !cd || dd >= cd, 'Delivery cannot be before collection.');
+      rule('goods', value('goods').length >= 2, 'Please describe what is being moved.');
+      rule('quantity', Number(value('quantity')) >= 1, 'Please enter how many pallets or items.');
+      rule('weight', Number(value('weight')) > 0, 'Please enter the total weight (an estimate is fine).');
+      rule('vehicle', checked('vehicle').length === 1, 'Please choose a vehicle, or "Unsure".');
+      return bad;
+    }
+
+    const showStatus = (html, kind) => { statusEl.innerHTML = html; statusEl.className = 'form-status ' + (kind || ''); };
+    const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const reference = () => {
+      const d = new Date(), pad = n => String(n).padStart(2, '0');
+      const tail = Math.random().toString(36).slice(2, 6).toUpperCase();
+      return 'ARM-' + String(d.getFullYear()).slice(2) + pad(d.getMonth() + 1) + pad(d.getDate()) + '-' + tail;
+    };
+    const fmtDate = (iso) => { if (!iso) return 'not specified'; const p = iso.split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : iso; };
+
+    function collect() {
+      const d = {
+        reference: reference(),
+        name: value('name'), company: value('company'), email: value('email'), phone: value('phone'),
+        collection_postcode: value('collection_postcode'), collection_address: value('collection_address'), collection_date: value('collection_date'),
+        delivery_postcode: value('delivery_postcode'), delivery_address: value('delivery_address'), delivery_date: value('delivery_date'),
+        goods: value('goods'), quantity: value('quantity') + ' ' + value('quantity_unit'), weight: value('weight') + ' ' + value('weight_unit'),
+        vehicle: checked('vehicle')[0] || '', requirements: checked('requirements').join(', ') || 'none', notes: value('notes')
+      };
+      d.subject = 'Quote request ' + d.reference + ': ' + d.collection_postcode + ' to ' + d.delivery_postcode + ' (' + d.vehicle + ')';
+      d.summary = [
+        'QUOTE REQUEST ' + d.reference,
+        '',
+        'CONTACT', 'Name: ' + d.name, 'Company: ' + (d.company || '-'), 'Email: ' + d.email, 'Phone: ' + d.phone,
+        '',
+        'COLLECTION', d.collection_address, d.collection_postcode, 'Date: ' + fmtDate(d.collection_date),
+        '',
+        'DELIVERY', d.delivery_address, d.delivery_postcode, 'Date: ' + fmtDate(d.delivery_date),
+        '',
+        'LOAD', 'Goods: ' + d.goods, 'Quantity: ' + d.quantity, 'Weight: ' + d.weight, 'Vehicle: ' + d.vehicle, 'Requirements: ' + d.requirements,
+        '',
+        'ADDITIONAL INFORMATION', d.notes || '-',
+        '',
+        'Sent from ' + location.href + ' on ' + new Date().toLocaleString('en-GB')
+      ].join('\n');
+      return d;
+    }
+
+    // duplicate guard: the same request within 10 minutes is not sent twice
+    const DUP_KEY = 'arm-quote-last';
+    const fingerprint = (d) => [d.email, d.collection_postcode, d.delivery_postcode, d.collection_date, d.goods, d.quantity, d.weight].join('|').toLowerCase();
+    const recentDuplicate = (d) => { try { const r = JSON.parse(sessionStorage.getItem(DUP_KEY) || 'null'); return r && r.fp === fingerprint(d) && Date.now() - r.at < 10 * 60 * 1000 ? r : null; } catch (err) { return null; } };
+    const remember = (d) => { try { sessionStorage.setItem(DUP_KEY, JSON.stringify({ fp: fingerprint(d), at: Date.now(), ref: d.reference })); } catch (err) { /* private mode */ } };
+
+    const mailtoHref = (d) => 'mailto:' + leadEmail + '?subject=' + encodeURIComponent(d.subject) + '&body=' + encodeURIComponent(d.summary);
+    function showDone(d, viaEmail) {
+      form.hidden = true;
+      doneEl.hidden = false;
+      doneEl.querySelector('[data-done-name]').textContent = d.name.split(' ')[0];
+      doneEl.querySelector('[data-done-ref]').textContent = d.reference;
+      doneEl.querySelector('[data-done-text]').textContent = viaEmail
+        ? 'Your email app has opened with the request filled in. Press Send there and we will reply to ' + d.email + ' or call ' + d.phone + '.'
+        : 'Your quote request has been sent to ARM Transport. We will reply to ' + d.email + ' or call you on ' + d.phone + ' with a price.';
+      quotePage.scrollTop = 0;
+      doneEl.querySelector('[data-quote-close]').focus({ preventScroll: true });
+    }
+    document.querySelectorAll('[data-quote-again]').forEach(b => b.addEventListener('click', () => {
+      form.reset(); form.hidden = false; doneEl.hidden = true; showStatus('', ''); quotePage.scrollTop = 0;
+      form.querySelectorAll('.invalid').forEach(w => w.classList.remove('invalid'));
+      form.querySelector('input[name="name"]').focus({ preventScroll: true });
+    }));
+
+    let sending = false;
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (sending) return;
+      if (F('_gotcha') && F('_gotcha').value) return;                        // honeypot filled: a bot
+      if (Date.now() - openedAt < 3000) return;                                // submitted faster than a person can type
+      const bad = validate();
+      if (bad.length) {
+        showStatus('Please check the highlighted fields.', 'err');
+        const first = form.querySelector('.qf-field.invalid input, .qf-field.invalid textarea, .qf-field.invalid select');
+        if (first) { first.focus({ preventScroll: true }); fieldWrap(first).scrollIntoView({ behavior: smooth(), block: 'center' }); }
+        return;
+      }
+      const d = collect();
+      const dup = recentDuplicate(d);
+      if (dup) { d.reference = dup.ref; showDone(d, !connected); return; }
+      if (F('reference')) F('reference').value = d.reference;
+
+      if (!connected) {
+        if (!leadEmail) { showStatus('The online form is not connected yet. Please call ' + PHONE + '.', 'err'); return; }
+        remember(d);
+        location.href = mailtoHref(d);
+        showDone(d, true);
+        return;
+      }
+
+      const button = form.querySelector('button[type="submit"]');
+      const payload = Object.assign({}, CONFIG.leadFields, d, { _subject: d.subject, _replyto: d.email, page: location.href, sent: new Date().toISOString() });
+      const fail = (why) => {
+        showStatus('<b>Your request could not be sent' + (why ? ' (' + esc(why) + ')' : '') + '.</b> Please try again in a moment' +
+          (leadEmail ? ', or <a href="' + esc(mailtoHref(d)) + '">send it by email instead</a>' : '') + ', or call <a href="tel:' + CONFIG.company.phoneTel + '">' + PHONE + '</a>. Nothing you typed has been lost.', 'err');
+      };
+      sending = true; button.disabled = true;
+      showStatus('Sending your request…', 'ok');
+      let req;
+      if (CONFIG.leadEndpoint === 'netlify') {
+        const body = new URLSearchParams();
+        body.set('form-name', form.getAttribute('name') || 'quote');
+        Object.keys(payload).forEach(k => body.set(k, payload[k]));
+        req = fetch(location.pathname, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
+      } else {
+        req = fetch(CONFIG.leadEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) });
+      }
+      const timer = new Promise((_, reject) => setTimeout(() => reject(new Error('the form service did not respond')), 20000));
+      Promise.race([req, timer])
+        .then(r => {
+          if (r.ok) return r;
+          return r.json().then(j => { throw new Error((j && j.errors && j.errors.map(x => x.message).join(', ')) || (j && j.error) || ('error ' + r.status)); }, () => { throw new Error('error ' + r.status); });
+        })
+        .then(() => { remember(d); showStatus('', ''); showDone(d, false); })
+        .catch(err => fail(err && err.message && !/failed to fetch|networkerror|load failed/i.test(err.message) ? err.message : 'no connection'))
+        .then(() => { sending = false; button.disabled = false; });
+    });
+  }
+
+  /* ---- analytics consent (only active when CONFIG.analytics.gtagId is set) ---- */
+  (function () {
+    const id = CONFIG.analytics && CONFIG.analytics.gtagId;
+    const bar = document.getElementById('consent');
+    if (!id || !bar) return;
+    document.body.classList.add('has-analytics');
+    const KEY = 'arm-analytics-consent';
+    const read = () => { try { return localStorage.getItem(KEY); } catch (err) { return null; } };
+    const write = (v) => { try { localStorage.setItem(KEY, v); } catch (err) { /* private mode: ask again next visit */ } };
+    let loaded = false;
+    function enable() {
+      if (loaded) return;
+      loaded = true;
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      gtag('js', new Date());
+      gtag('config', id, { anonymize_ip: true });
+      loadScript(['https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id)]).catch(() => {});
+    }
+    const show = () => { bar.hidden = false; };
+    const hide = () => { bar.hidden = true; };
+    bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => {
+      const yes = b.getAttribute('data-consent') === 'yes';
+      write(yes ? 'yes' : 'no');
+      hide();
+      if (yes) enable();
+    }));
+    document.querySelectorAll('[data-consent-change]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+    const choice = read();
+    if (choice === 'yes') enable();
+    else if (choice !== 'no') show();
+  })();
+
+  /* =========================================================================
+     The 3D view: loaded only when WebGL is available, with the standard page as the fallback.
+     ========================================================================= */
+  function webglAvailable() {
+    try {
+      const c = document.createElement('canvas');
+      const gl = c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl');
+      if (gl && gl.getExtension) { const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); }   // the probe context is not kept
+      return !!(window.WebGLRenderingContext && gl);
+    } catch (err) { return false; }
+  }
+
+  function boot() {
+    if (!webglAvailable()) { degrade('WebGL is not available in this browser'); return; }
+    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('the 3D libraries took too long to load')), 20000));
+    const libs = Promise.all([loadScript(LIBS.three), loadScript(LIBS.gsap)])
+      .then(() => Promise.all([loadScript(LIBS.reflector), loadScript(LIBS.scrollTrigger)]));
+    Promise.race([libs, timeout]).then(() => {
+      if (typeof THREE === 'undefined' || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') throw new Error('the 3D libraries did not initialise');
+      try { init3D(); } catch (err) { console.error(err); degrade('the 3D view hit an error: ' + (err && err.message)); }
+    }).catch(err => degrade(err && err.message));
+  }
+
+  function init3D() {
+  function fail(message) { degrade(message || 'the renderer could not start'); }
+
+  /* =========================================================================
+     Renderer
+     ========================================================================= */
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance', stencil: false });
+  } catch (err) {
+    fail();
+    return;
+  }
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = CONFIG.exposure;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.autoUpdate = false;
+  renderer.setClearColor(new THREE.Color(CONFIG.colors.background), 1);
+  const Y_AXIS = new THREE.Vector3(0, 1, 0);
+  const MAX_ANISO = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
+
+  /* =========================================================================
+     Small helpers
+     ========================================================================= */
+  // Hex values in this file are meant as the colours you would see, so convert them to linear once.
+  function srgb(hex) { return new THREE.Color(hex).convertSRGBToLinear(); }
+
+  function makeCanvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+
+  function toTexture(canvas, opts) {
+    opts = opts || {};
+    const t = new THREE.CanvasTexture(canvas);
+    if (opts.color !== false) t.encoding = THREE.sRGBEncoding;
+    t.wrapS = t.wrapT = opts.clamp ? THREE.ClampToEdgeWrapping : THREE.RepeatWrapping;
+    if (opts.repeat) t.repeat.set(opts.repeat[0], opts.repeat[1]);
+    t.anisotropy = Math.min(8, MAX_ANISO);
+    return t;
+  }
+
+  function noise(ctx, w, h, alpha, count) {
+    for (let i = 0; i < count; i++) {
+      const v = Math.floor(Math.random() * 255);
+      ctx.fillStyle = 'rgba(' + v + ',' + v + ',' + v + ',' + alpha + ')';
+      ctx.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 2, 1 + Math.random() * 2);
+    }
+  }
+
+  /* ---- canvas textures ---------------------------------------------------- */
+  const TEX = {};
+
+  TEX.tread = (function () {
+    const c = makeCanvas(128, 256), ctx = c.getContext('2d');
+    ctx.fillStyle = '#7a7a7a'; ctx.fillRect(0, 0, 128, 256);
+    // sidewall: a faint raised ring
+    ctx.fillStyle = '#8a8a8a'; ctx.fillRect(0, 30, 128, 6); ctx.fillRect(0, 220, 128, 6);
+    // tread band sits between v 0.36 and 0.64 of the lathe profile
+    ctx.fillStyle = '#c8c8c8'; ctx.fillRect(0, 92, 128, 72);
+    ctx.fillStyle = '#3a3a3a';
+    ctx.fillRect(0, 102, 128, 5); ctx.fillRect(0, 120, 128, 5); ctx.fillRect(0, 138, 128, 5); ctx.fillRect(0, 156, 128, 4);
+    ctx.fillRect(44, 92, 6, 72); ctx.fillRect(104, 92, 6, 72);
+    ctx.fillRect(16, 108, 5, 12); ctx.fillRect(76, 126, 5, 12);
+    return toTexture(c, { color: false, repeat: [44, 1] });
+  })();
+
+  TEX.plywood = (function () {
+    const c = makeCanvas(512, 512), ctx = c.getContext('2d');
+    ctx.fillStyle = '#b9975f'; ctx.fillRect(0, 0, 512, 512);
+    for (let i = 0; i < 260; i++) {
+      const y = Math.random() * 512, l = 60 + Math.random() * 300, a = 0.05 + Math.random() * 0.12;
+      ctx.strokeStyle = Math.random() > 0.5 ? 'rgba(90,60,25,' + a + ')' : 'rgba(230,205,150,' + a + ')';
+      ctx.lineWidth = 1 + Math.random() * 2;
+      ctx.beginPath(); ctx.moveTo(Math.random() * 512, y); ctx.lineTo(Math.random() * 512 + l, y + (Math.random() - 0.5) * 6); ctx.stroke();
+    }
+    noise(ctx, 512, 512, 0.06, 2500);
+    ctx.fillStyle = 'rgba(70,45,20,0.35)'; ctx.fillRect(0, 254, 512, 3); ctx.fillRect(254, 0, 3, 512);
+    return toTexture(c, { repeat: [2, 5] });
+  })();
+
+  TEX.seams = (function () {
+    const c = makeCanvas(512, 128), ctx = c.getContext('2d');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 512, 128);
+    noise(ctx, 512, 128, 0.025, 800);
+    ctx.fillStyle = 'rgba(0,0,0,0.10)'; ctx.fillRect(0, 0, 3, 128);
+    ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(3, 0, 3, 128);
+    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fillRect(509, 0, 3, 128);
+    return toTexture(c, { repeat: [10, 1] });
+  })();
+
+  TEX.fade = (function () {
+    const c = makeCanvas(512, 512), ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(256, 256, 0, 256, 256, 256);
+    g.addColorStop(0, '#000'); g.addColorStop(0.2, '#000'); g.addColorStop(0.36, '#555'); g.addColorStop(0.5, '#e6e6e6'); g.addColorStop(0.62, '#fff'); g.addColorStop(1, '#fff');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 512, 512);
+    return toTexture(c, { color: false, clamp: true });
+  })();
+
+  TEX.ao = (function () {
+    const c = makeCanvas(256, 512), ctx = c.getContext('2d');
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 256, 512);
+    // draw the rectangle off-canvas and keep only its blurred white shadow (alphaMap reads brightness)
+    ctx.shadowColor = 'rgba(255,255,255,1)'; ctx.shadowBlur = 42; ctx.shadowOffsetX = 1000;
+    ctx.fillStyle = '#fff'; ctx.fillRect(-1000 + 70, 60, 116, 392);
+    ctx.shadowBlur = 18; ctx.fillRect(-1000 + 84, 78, 88, 356);
+    return toTexture(c, { color: false, clamp: true });
+  })();
+
+  TEX.glow = (function () {
+    const c = makeCanvas(128, 128), ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.25, 'rgba(255,255,255,0.55)'); g.addColorStop(0.6, 'rgba(255,255,255,0.12)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 128, 128);
+    return toTexture(c, { clamp: true });
+  })();
+
+  TEX.tape = (function () {
+    const c = makeCanvas(256, 32), ctx = c.getContext('2d');
+    for (let i = 0; i < 4; i++) { ctx.fillStyle = i % 2 ? '#f4f4f0' : '#c81a1a'; ctx.fillRect(i * 64, 0, 64, 32); }
+    for (let x = 0; x < 256; x += 8) { ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.fillRect(x, 0, 2, 32); }
+    return toTexture(c, { repeat: [18, 1] });
+  })();
+
+  TEX.etrack = (function () {
+    const c = makeCanvas(512, 64), ctx = c.getContext('2d');
+    ctx.fillStyle = '#9ea2a6'; ctx.fillRect(0, 0, 512, 64);
+    ctx.fillStyle = '#b4b8bc'; ctx.fillRect(0, 0, 512, 6); ctx.fillRect(0, 58, 512, 6);
+    ctx.fillStyle = '#26282b';
+    for (let x = 6; x < 512; x += 32) ctx.fillRect(x, 18, 16, 28);
+    return toTexture(c, { repeat: [60, 1] });
+  })();
+
+  TEX.strap = (function () {
+    const c = makeCanvas(64, 256), ctx = c.getContext('2d');
+    ctx.fillStyle = '#e0621b'; ctx.fillRect(0, 0, 64, 256);
+    ctx.fillStyle = 'rgba(90,30,0,0.35)';
+    for (let x = 6; x < 64; x += 12) ctx.fillRect(x, 0, 2, 256);
+    ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.fillRect(0, 0, 3, 256); ctx.fillRect(61, 0, 3, 256);
+    noise(ctx, 64, 256, 0.08, 500);
+    return toTexture(c, { repeat: [1, 1] });
+  })();
+
+  TEX.carton = (function () {
+    const c = makeCanvas(256, 256), ctx = c.getContext('2d');
+    ctx.fillStyle = '#b98a5a'; ctx.fillRect(0, 0, 256, 256);
+    noise(ctx, 256, 256, 0.07, 1200);
+    ctx.strokeStyle = 'rgba(60,35,15,0.55)'; ctx.lineWidth = 3;
+    ctx.strokeRect(1, 1, 126, 126); ctx.strokeRect(129, 1, 126, 126); ctx.strokeRect(1, 129, 126, 126); ctx.strokeRect(129, 129, 126, 126);
+    ctx.fillStyle = 'rgba(250,245,235,0.8)';
+    ctx.fillRect(22, 30, 54, 34); ctx.fillRect(150, 158, 54, 34); ctx.fillRect(150, 30, 26, 18); ctx.fillRect(22, 158, 26, 18);
+    ctx.fillStyle = 'rgba(80,60,40,0.5)'; ctx.fillRect(28, 40, 42, 3); ctx.fillRect(28, 48, 30, 3); ctx.fillRect(156, 168, 42, 3);
+    ctx.fillStyle = 'rgba(160,120,80,0.6)'; ctx.fillRect(0, 62, 256, 5); ctx.fillRect(0, 190, 256, 5);
+    return toTexture(c, { repeat: [2, 2] });
+  })();
+
+  // The ARM Transport logo, painted at any scale into a 1300x800 box: the official artwork when CONFIG.logoUrl is set,
+  // otherwise the code-drawn version (same geometry as the SVG symbol in the markup).
+  let logoImage = null;
+  function paintLogo(ctx, ox, oy, k, dark) {
+    dark = dark || '#141414';
+    if (logoImage) {
+      const iw = logoImage.naturalWidth || 1300, ih = logoImage.naturalHeight || 800;
+      const f = Math.min(1300 / iw, 800 / ih), w = iw * f, h = ih * f;
+      ctx.save();
+      ctx.translate(ox, oy);
+      ctx.scale(k, k);
+      ctx.drawImage(logoImage, (1300 - w) / 2, (800 - h) / 2, w, h);
+      ctx.restore();
+      return;
+    }
+    ctx.save();
+    ctx.translate(ox, oy);
+    ctx.scale(k, k);
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#e3262b';
+    ctx.font = '900 390px "Archivo Black", "Arial Black", Arial, sans-serif';
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '-8px';
+    ctx.fillText('ARM', 118, 440);
+    ctx.lineCap = 'butt';
+    const stripe = (color, width, draw) => { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.beginPath(); draw(); ctx.stroke(); };
+    stripe(dark, 24, () => { ctx.moveTo(90, 505); ctx.lineTo(790, 505); ctx.bezierCurveTo(950, 505, 1050, 468, 1150, 390); ctx.bezierCurveTo(1215, 338, 1258, 303, 1300, 282); });
+    stripe('#e3262b', 24, () => { ctx.moveTo(45, 585); ctx.lineTo(780, 585); ctx.bezierCurveTo(950, 585, 1085, 545, 1172, 440); ctx.bezierCurveTo(1212, 392, 1232, 320, 1242, 252); });
+    stripe('#3a1a86', 26, () => { ctx.moveTo(0, 655); ctx.lineTo(540, 655); ctx.bezierCurveTo(760, 655, 905, 575, 1025, 455); ctx.bezierCurveTo(1100, 380, 1180, 345, 1300, 402); });
+    ctx.fillStyle = dark;
+    ctx.font = '700 150px "Jost", "Futura", "Century Gothic", "Trebuchet MS", sans-serif';
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '7px';
+    ctx.fillText('TRANSPORT', 38, 790);
+    ctx.restore();
+  }
+  const logoRedraws = [];   // redrawn once the web fonts are in, and again if the official logo image arrives
+  if (CONFIG.logoUrl) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => { logoImage = img; logoRedraws.forEach(fn => fn()); needsRender = true; renderer.shadowMap.needsUpdate = true; };
+    img.onerror = () => console.warn('Logo image could not be loaded from ' + CONFIG.logoUrl + '; using the built-in drawing.');
+    img.src = CONFIG.logoUrl;
+  }
+  // The decal quads on the MAN models are 1.845:1 (the proportions of the official artwork); the canvas matches them
+  // so the logo is never stretched, and is drawn at 2600 px wide so it stays sharp on the cab doors.
+  const LOGO_ASPECT = 1.845;
+  function logoTexture() {
+    const W = 2600, H = Math.round(W / LOGO_ASPECT);
+    const c = makeCanvas(W, H), ctx = c.getContext('2d');
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      if (logoImage) {
+        const iw = logoImage.naturalWidth || W, ih = logoImage.naturalHeight || H;
+        const f = Math.min(W / iw, H / ih), w = iw * f, h = ih * f;
+        ctx.drawImage(logoImage, (W - w) / 2, (H - h) / 2, w, h);
+      } else {
+        const k = H / 800; paintLogo(ctx, (W - 1300 * k) / 2, 0, k);
+      }
+    };
+    draw();
+    const t = toTexture(c, { clamp: true });
+    const t2 = toTexture(c, { clamp: true }); t2.flipY = false;   // glTF decals (UV origin top-left)
+    logoRedraws.push(() => { draw(); t.needsUpdate = true; t2.needsUpdate = true; });
+    t.gltf = t2;
+    return t;
+  }
+  TEX.logo = logoTexture();
+
+  // Curtain fabric for a curtainsider side: white PVC, tension straps and buckles, the logo in the middle.
+  function curtainTexture(lengthM, heightM, withUrl) {
+    const W = 2048, H = Math.round(W * heightM / lengthM);
+    const c = makeCanvas(W, H), ctx = c.getContext('2d');
+    const draw = () => {
+      ctx.fillStyle = '#f3f3f0'; ctx.fillRect(0, 0, W, H);
+      noise(ctx, W, H, 0.03, 3000);
+      // soft vertical shading between straps
+      const strapPx = W / lengthM * 0.6;
+      for (let x = 0; x < W; x += strapPx) {
+        const g = ctx.createLinearGradient(x, 0, x + strapPx, 0);
+        g.addColorStop(0, 'rgba(0,0,0,0.07)'); g.addColorStop(0.5, 'rgba(255,255,255,0.05)'); g.addColorStop(1, 'rgba(0,0,0,0.07)');
+        ctx.fillStyle = g; ctx.fillRect(x, 0, strapPx, H);
+      }
+      // logo across the middle
+      const k = (H * 0.62) / 800;
+      const lx = (W - 1300 * k) / 2, ly = H * 0.09;
+      paintLogo(ctx, lx, ly, k);
+      if (withUrl) {
+        ctx.fillStyle = '#2a2b2e';
+        ctx.font = '600 ' + Math.round(H * 0.075) + 'px "Instrument Sans", "Helvetica Neue", Arial, sans-serif';
+        ctx.textBaseline = 'alphabetic';
+        if ('letterSpacing' in ctx) ctx.letterSpacing = Math.round(H * 0.012) + 'px';
+        ctx.fillText('ARM TRANSPORT  ·  MANCHESTER  ·  0161 706 0601', lx, H * 0.9);
+      }
+      // straps and buckles along the bottom
+      ctx.fillStyle = 'rgba(40,40,44,0.75)';
+      for (let x = strapPx / 2; x < W; x += strapPx) {
+        ctx.fillRect(x - 3, H * 0.62, 6, H * 0.38);
+        ctx.fillRect(x - 12, H * 0.9, 24, H * 0.055);
+      }
+    };
+    draw();
+    const t = toTexture(c, { clamp: true });
+    logoRedraws.push(() => { draw(); t.needsUpdate = true; });
+    return t;
+  }
+
+  TEX.brick = (function () {
+    const c = makeCanvas(256, 256), ctx = c.getContext('2d');
+    ctx.fillStyle = '#b9ada1'; ctx.fillRect(0, 0, 256, 256);
+    const rows = 8, cols = 4;
+    for (let r = 0; r < rows; r++) {
+      for (let col = -1; col <= cols; col++) {
+        const w = 256 / cols, h = 256 / rows, x = col * w + (r % 2 ? w / 2 : 0), y = r * h;
+        const v = 150 + Math.floor(Math.random() * 40);
+        ctx.fillStyle = 'rgb(' + v + ',' + Math.floor(v * 0.45) + ',' + Math.floor(v * 0.33) + ')';
+        ctx.fillRect(x + 2, y + 2, w - 4, h - 4);
+      }
+    }
+    noise(ctx, 256, 256, 0.08, 900);
+    return toTexture(c, { repeat: [2, 2] });
+  })();
+
+  TEX.checker = (function () {
+    const c = makeCanvas(128, 128), ctx = c.getContext('2d');
+    ctx.fillStyle = '#8d9094'; ctx.fillRect(0, 0, 128, 128);
+    ctx.fillStyle = '#a5a8ac';
+    for (let y = 0; y < 128; y += 16) for (let x = 0; x < 128; x += 16) { if (((x + y) / 16) % 2) ctx.fillRect(x + 3, y + 5, 10, 6); else ctx.fillRect(x + 5, y + 3, 6, 10); }
+    return toTexture(c, { repeat: [12, 3] });
+  })();
+
+
+  /* ---- geometry helpers --------------------------------------------------- */
+  function box(w, h, d) { return new THREE.BoxGeometry(w, h, d); }
+  function cyl(rt, rb, h, seg, open) { return new THREE.CylinderGeometry(rt, rb, h, seg || 24, 1, !!open); }
+
+  function place(geo, x, y, z, rot) {
+    const m = new THREE.Matrix4();
+    if (rot) m.makeRotationFromEuler(new THREE.Euler(rot[0], rot[1], rot[2]));
+    m.setPosition(x || 0, y || 0, z || 0);
+    geo.applyMatrix4(m);
+    return geo;
+  }
+
+  // Concatenate geometries that share position/normal/uv attributes into one (fewer draw calls).
+  function merge(list) {
+    const parts = list.map(g => (g.index ? g.toNonIndexed() : g));
+    let count = 0;
+    parts.forEach(g => { count += g.attributes.position.count; });
+    const pos = new Float32Array(count * 3), nor = new Float32Array(count * 3), uv = new Float32Array(count * 2);
+    let o = 0;
+    parts.forEach(g => {
+      pos.set(g.attributes.position.array, o * 3);
+      nor.set(g.attributes.normal.array, o * 3);
+      if (g.attributes.uv) uv.set(g.attributes.uv.array, o * 2);
+      o += g.attributes.position.count;
+    });
+    const out = new THREE.BufferGeometry();
+    out.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    out.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+    out.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+    return out;
+  }
+
+  // All-edges-rounded box (a port of the RoundedBoxGeometry projection idea; r128 has no addon for it).
+  function roundedBox(w, h, d, radius, segments) {
+    const S = (segments || 2) * 2 + 1;
+    radius = Math.min(w / 2, h / 2, d / 2, radius);
+    const base = new THREE.BoxGeometry(1, 1, 1, S, S, S);
+    const geo = base.toNonIndexed();
+    base.dispose();
+    const pos = geo.attributes.position.array, nor = geo.attributes.normal.array, uv = geo.attributes.uv.array;
+    const inner = new THREE.Vector3(w, h, d).multiplyScalar(0.5).subScalar(radius);
+    const p = new THREE.Vector3(), n = new THREE.Vector3();
+    const half = 0.5 / S;
+    const faceLen = pos.length / 6;
+    for (let i = 0, j = 0; i < pos.length; i += 3, j += 2) {
+      p.fromArray(pos, i);
+      n.copy(p);
+      n.x -= Math.sign(n.x) * half;
+      n.y -= Math.sign(n.y) * half;
+      n.z -= Math.sign(n.z) * half;
+      n.normalize();
+      const x = inner.x * Math.sign(p.x) + n.x * radius;
+      const y = inner.y * Math.sign(p.y) + n.y * radius;
+      const z = inner.z * Math.sign(p.z) + n.z * radius;
+      pos[i] = x; pos[i + 1] = y; pos[i + 2] = z;
+      nor[i] = n.x; nor[i + 1] = n.y; nor[i + 2] = n.z;
+      switch (Math.floor(i / faceLen)) {
+        case 0: uv[j] = z / d + 0.5; uv[j + 1] = y / h + 0.5; break;
+        case 1: uv[j] = 0.5 - z / d; uv[j + 1] = y / h + 0.5; break;
+        case 2: uv[j] = x / w + 0.5; uv[j + 1] = 0.5 - z / d; break;
+        case 3: uv[j] = x / w + 0.5; uv[j + 1] = z / d + 0.5; break;
+        case 4: uv[j] = x / w + 0.5; uv[j + 1] = y / h + 0.5; break;
+        default: uv[j] = 0.5 - x / w; uv[j + 1] = y / h + 0.5;
+      }
+    }
+    geo.attributes.position.needsUpdate = true;
+    geo.attributes.normal.needsUpdate = true;
+    geo.attributes.uv.needsUpdate = true;
+    geo.computeBoundingSphere();
+    return geo;
+  }
+
+  // Extrude a profile drawn in the (z, y) plane along x, centred on the origin.
+  function extrudeX(shape, width, bevel) {
+    const b = Math.max(0, bevel || 0);
+    const depth = width - 2 * b;
+    const geo = new THREE.ExtrudeGeometry(shape, {
+      depth, steps: 1, curveSegments: 12,
+      bevelEnabled: b > 0, bevelThickness: b, bevelSize: b, bevelOffset: -b, bevelSegments: 3
+    });
+    geo.rotateY(-Math.PI / 2);
+    geo.translate(depth / 2, 0, 0);
+    geo.computeVertexNormals();
+    return geo;
+  }
+
+  // A flat strip of constant width following a polyline; `lateral` is the across-strip direction.
+  function ribbon(points, width, lateral) {
+    const n = points.length;
+    const pos = new Float32Array(n * 6), uv = new Float32Array(n * 4);
+    const off = lateral.clone().normalize().multiplyScalar(width / 2);
+    let dist = 0;
+    for (let i = 0; i < n; i++) {
+      if (i > 0) dist += points[i].distanceTo(points[i - 1]);
+      const p = points[i];
+      pos[i * 6] = p.x - off.x; pos[i * 6 + 1] = p.y - off.y; pos[i * 6 + 2] = p.z - off.z;
+      pos[i * 6 + 3] = p.x + off.x; pos[i * 6 + 4] = p.y + off.y; pos[i * 6 + 5] = p.z + off.z;
+      uv[i * 4] = 0; uv[i * 4 + 1] = dist / 0.25; uv[i * 4 + 2] = 1; uv[i * 4 + 3] = dist / 0.25;
+    }
+    const idx = [];
+    for (let i = 0; i < n - 1; i++) {
+      const a = i * 2, b = a + 1, c = a + 2, d = a + 3;
+      idx.push(a, c, b, b, c, d);
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+    geo.setIndex(idx);
+    geo.computeVertexNormals();
+    return geo;
+  }
+
+  function mesh(geo, mat, x, y, z, opts) {
+    opts = opts || {};
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(x || 0, y || 0, z || 0);
+    if (opts.rot) m.rotation.set(opts.rot[0], opts.rot[1], opts.rot[2]);
+    m.castShadow = opts.cast !== false;
+    m.receiveShadow = opts.receive !== false;
+    if (opts.parent) opts.parent.add(m);
+    return m;
+  }
+
+  /* =========================================================================
+     Materials
+     ========================================================================= */
+  const std = (o) => new THREE.MeshStandardMaterial(o);
+  const phys = (o) => new THREE.MeshPhysicalMaterial(o);
+  const M = {
+    paint: phys({ color: srgb(CONFIG.colors.cabPaint), metalness: 0.08, roughness: 0.36, clearcoat: 1, clearcoatRoughness: 0.07 }),
+    panel: phys({ color: srgb(CONFIG.colors.bodyPanel), map: TEX.seams, metalness: 0.08, roughness: 0.4, clearcoat: 0.55, clearcoatRoughness: 0.18 }),
+    panelPlain: phys({ color: srgb(CONFIG.colors.bodyPanel), metalness: 0.08, roughness: 0.4, clearcoat: 0.55, clearcoatRoughness: 0.18 }),
+    inner: std({ color: srgb(0xaeb1b3), roughness: 0.72, metalness: 0.12 }),
+    ceiling: std({ color: srgb(0xd9dbdb), roughness: 0.82 }),
+    plywood: std({ map: TEX.plywood, roughness: 0.86 }),
+    deck: std({ map: TEX.plywood, color: srgb(0x8a7a66), roughness: 0.9 }),
+    pallet: std({ map: TEX.plywood, color: srgb(0xd8c4a2), roughness: 0.9 }),
+    timber: std({ map: TEX.plywood, color: srgb(0xe2cfa8), roughness: 0.92 }),
+    alu: std({ color: srgb(0xb9bdc1), metalness: 0.85, roughness: 0.34, side: THREE.DoubleSide }),
+    chrome: std({ color: srgb(0xe8eaec), metalness: 1, roughness: 0.1 }),
+    steel: std({ color: srgb(0x45484c), metalness: 0.8, roughness: 0.48 }),
+    checker: std({ map: TEX.checker, metalness: 0.75, roughness: 0.4 }),
+    dark: std({ color: srgb(0x1b1c1e), metalness: 0.18, roughness: 0.6, side: THREE.DoubleSide }),
+    matte: std({ color: srgb(0x232426), roughness: 0.92 }),
+    rubber: std({ color: srgb(0x131315), roughness: 0.94, bumpMap: TEX.tread, bumpScale: 0.006 }),
+    flap: std({ color: srgb(0x111214), roughness: 0.95 }),
+    glass: phys({ color: srgb(0x0b1217), metalness: 0, roughness: 0.03, clearcoat: 1, clearcoatRoughness: 0.02, transparent: true, opacity: 0.74, side: THREE.DoubleSide, depthWrite: false }),
+    lampGlass: phys({ color: srgb(0x9aa4ac), metalness: 0, roughness: 0.05, clearcoat: 1, transparent: true, opacity: 0.4, depthWrite: false }),
+    mirrorGlass: std({ color: srgb(0xf0f2f4), metalness: 1, roughness: 0.02 }),
+    lampRed: std({ color: srgb(0x7a0d0d), emissive: srgb(0xff2b1a), emissiveIntensity: 0.9, roughness: 0.25 }),
+    lampAmber: std({ color: srgb(0x8a4a05), emissive: srgb(0xffa11e), emissiveIntensity: 0.85, roughness: 0.25 }),
+    lampWhite: std({ color: srgb(0xd8d8d8), emissive: srgb(0xffffff), emissiveIntensity: 0.35, roughness: 0.2 }),
+    drl: new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }),
+    tape: std({ map: TEX.tape, emissive: srgb(0xffffff), emissiveMap: TEX.tape, emissiveIntensity: 0.22, roughness: 0.42 }),
+    seat: std({ color: srgb(0x2c2e33), roughness: 0.96 }),
+    dash: std({ color: srgb(0x1c1e21), roughness: 0.82 }),
+    strap: std({ map: TEX.strap, roughness: 0.78, side: THREE.DoubleSide }),
+    carton: std({ map: TEX.carton, roughness: 0.96 }),
+    brick: std({ map: TEX.brick, roughness: 0.95 }),
+    wrap: phys({ color: srgb(0xf3f4f6), transparent: true, opacity: 0.3, roughness: 0.3, metalness: 0, clearcoat: 0.6, clearcoatRoughness: 0.25, depthWrite: false }),
+    drum: std({ color: srgb(CONFIG.colors.drum), roughness: 0.42, metalness: 0.1 }),
+    etrack: std({ map: TEX.etrack, metalness: 0.7, roughness: 0.42 }),
+    led: std({ color: srgb(0xffffff), emissive: srgb(0xfff4e6), emissiveIntensity: 0, roughness: 0.4 }),
+    decal: std({ map: TEX.logo, transparent: true, roughness: 0.45, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }),
+    plate: std({ color: srgb(0xf2f2ee), roughness: 0.5 }),
+    curtainRigid: std({ map: curtainTexture(7.3, 2.65, false), roughness: 0.72, metalness: 0 }),
+    curtainTrailer: std({ map: curtainTexture(13.3, 2.55, true), roughness: 0.72, metalness: 0 })
+  };
+  Object.keys(M).forEach(k => { if (M[k].isMeshStandardMaterial) M[k].envMapIntensity = CONFIG.envIntensity; });
+  const glowMat = new THREE.SpriteMaterial({ map: TEX.glow, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending, depthWrite: false });
+  const aoMat = new THREE.MeshBasicMaterial({ color: 0x000000, alphaMap: TEX.ao, transparent: true, opacity: 0.62, depthWrite: false, toneMapped: false });
+  const noShadowMats = [M.glass, M.lampGlass, M.wrap, M.decal];
+
+  /* =========================================================================
+     Shared vehicle parts
+     ========================================================================= */
+  // Wheel geometry for a given tyre size; the wheel's face points along local +y.
+  function wheelSet(R, W, rimR) {
+    const k = R / 0.49, kw = W / 0.30;
+    const pts = [
+      [0.262, -0.120], [0.290, -0.140], [0.380, -0.140], [0.450, -0.130], [0.478, -0.112],
+      [0.490, -0.095], [0.490, -0.050], [0.490, 0.0], [0.490, 0.050], [0.490, 0.095],
+      [0.478, 0.112], [0.450, 0.130], [0.380, 0.140], [0.290, 0.140], [0.262, 0.120]
+    ].map(p => new THREE.Vector2(p[0] * k, p[1] * kw));
+    const tyre = new THREE.LatheGeometry(pts, 56);
+    const rim = merge([
+      cyl(rimR, rimR, W - 0.02, 40, true),
+      place(cyl(rimR - 0.012, rimR - 0.012, 0.03, 40), 0, W * 0.25, 0),
+      place(cyl(rimR * 0.4, rimR * 0.4, 0.06, 32), 0, W * 0.33, 0),
+      place(cyl(rimR * 0.18, rimR * 0.18, 0.03, 20), 0, W * 0.46, 0)
+    ]);
+    const lugs = [];
+    const n = R > 0.4 ? 10 : 6;
+    for (let i = 0; i < n; i++) {
+      const a = i / n * Math.PI * 2;
+      lugs.push(place(cyl(0.014, 0.014, 0.026, 6), Math.cos(a) * rimR * 0.61, W * 0.35, Math.sin(a) * rimR * 0.61));
+    }
+    return { R, W, tyre, rim, lugs: merge(lugs), drum: cyl(rimR * 0.65, rimR * 0.65, 0.12, 28) };
+  }
+  const WHEEL_TRUCK = wheelSet(0.49, 0.30, 0.27);
+  const WHEEL_VAN = wheelSet(0.36, 0.22, 0.21);
+
+  function makeWheel(set, withDrum) {
+    const outer = new THREE.Group();
+    const spin = new THREE.Group();
+    outer.add(spin);
+    mesh(set.tyre, M.rubber, 0, 0, 0, { parent: spin });
+    mesh(set.rim, M.alu, 0, 0, 0, { parent: spin });
+    mesh(set.lugs, M.steel, 0, 0, 0, { parent: spin });
+    if (withDrum) mesh(set.drum, M.dark, 0, -set.W * 0.63, 0, { parent: spin });
+    return { outer, spin };
+  }
+
+  // Road wheel at (x, z); faceOut = true for the outer dish facing away from the vehicle.
+  function addWheel(parent, set, wheels, x, z, faceOut) {
+    const w = makeWheel(set, true);
+    w.outer.position.set(x, set.R, z);
+    const facePlusX = faceOut === (x > 0);
+    w.outer.rotation.z = facePlusX ? -Math.PI / 2 : Math.PI / 2;
+    w.spin.name = 'spin';
+    w.spin.userData.sign = facePlusX ? 1 : -1;
+    w.spin.userData.R = set.R;
+    parent.add(w.outer);
+    wheels.push({ spin: w.spin, sign: w.spin.userData.sign, R: set.R });
+    return w;
+  }
+
+  function aoBlob(parent, w, l, zc) {
+    const p = mesh(new THREE.PlaneGeometry(w, l), aoMat, 0, 0.006, zc || 0, { parent, rot: [-Math.PI / 2, 0, 0], cast: false, receive: false });
+    p.renderOrder = 2;
+    return p;
+  }
+
+  // Tail lamps, underrun bar, number plate and (optionally) a rear step at the back edge zBack.
+  function buildRearEnd(parent, zBack, o) {
+    o = o || {};
+    const hw = (o.width || 2.5) / 2, barY = o.barY || 0.52;
+    [1, -1].forEach(s => {
+      const lx = s * (hw - 0.25);
+      mesh(box(0.46, 0.16, 0.08), M.dark, lx, 0.72, zBack - 0.12, { parent });
+      mesh(box(0.16, 0.11, 0.012), M.lampRed, lx - 0.13, 0.72, zBack - 0.165, { parent, cast: false });
+      mesh(box(0.10, 0.11, 0.012), M.lampAmber, lx + 0.02, 0.72, zBack - 0.165, { parent, cast: false });
+      mesh(box(0.10, 0.11, 0.012), M.lampWhite, lx + 0.15, 0.72, zBack - 0.165, { parent, cast: false });
+    });
+    const parts = [place(box(hw * 2 - 0.2, 0.1, 0.12), 0, barY, zBack), place(box(0.06, 0.42, 0.06), 0.75, barY + 0.24, zBack + 0.05), place(box(0.06, 0.42, 0.06), -0.75, barY + 0.24, zBack + 0.05)];
+    if (o.step !== false) parts.push(place(box(1.4, 0.03, 0.22), 0, barY + 0.14, zBack - 0.12), place(box(0.03, 0.12, 0.2), 0.62, barY + 0.2, zBack - 0.1), place(box(0.03, 0.12, 0.2), -0.62, barY + 0.2, zBack - 0.1));
+    mesh(merge(parts), M.steel, 0, 0, 0, { parent });
+    mesh(box(0.52, 0.11, 0.012), M.plate, 0, barY + 0.38, zBack - 0.085, { parent, cast: false });
+  }
+
+  // Two rear door leaves hinged at the corners; returns the hinge groups (rotation.y drives them).
+  function buildRearDoors(parent, zBack, o) {
+    o = o || {};
+    const hw = (o.width || 2.5) / 2 - 0.01, yBottom = o.yBottom || 1.15, h = o.height || 2.5;
+    const leafW = hw - 0.02;
+    const doorL = new THREE.Group(), doorR = new THREE.Group();
+    doorR.position.set(hw, 0, zBack - 0.03);
+    doorL.position.set(-hw, 0, zBack - 0.03);
+    parent.add(doorL, doorR);
+    const tapeMat = M.tape.clone();
+    tapeMat.map = TEX.tape.clone(); tapeMat.map.repeat.set(3.5, 1); tapeMat.map.needsUpdate = true;
+    tapeMat.emissiveMap = tapeMat.map;
+    function leaf(g, s) {
+      const cx = s * leafW / 2;
+      mesh(box(leafW, h, 0.05), [M.alu, M.alu, M.alu, M.alu, M.inner, M.panelPlain], cx, yBottom + h / 2, -0.02, { parent: g });
+      mesh(merge([place(box(0.07, 0.18, 0.09), s * 0.02, yBottom + h * 0.2, -0.05), place(box(0.07, 0.18, 0.09), s * 0.02, yBottom + h * 0.8, -0.05)]), M.steel, 0, 0, 0, { parent: g });
+      const rx = s * (leafW - 0.3);
+      mesh(cyl(0.012, 0.012, h - 0.2, 10), M.chrome, rx, yBottom + h / 2, -0.075, { parent: g, cast: false });
+      mesh(merge([0.1, 0.5, 0.9].map(f => place(box(0.06, 0.08, 0.05), 0, (f - 0.5) * (h - 0.2), 0))), M.steel, rx, yBottom + h / 2, -0.07, { parent: g, cast: false });
+      mesh(box(0.05, 0.16, 0.04), M.steel, rx, yBottom + 0.8, -0.085, { parent: g, cast: false });
+      mesh(box(leafW - 0.2, 0.055, 0.006), tapeMat, cx, yBottom + 0.2, -0.05, { parent: g, cast: false });
+    }
+    leaf(doorR, -1);
+    leaf(doorL, 1);
+    return { doorL, doorR };
+  }
+
+  /* ---- the cab-over day cab (12 t / 18 t rigids) and its high-roof tractor variant ---- */
+  function buildCab(parent, o) {
+    o = o || {};
+    const cab = new THREE.Group();
+    parent.add(cab);
+    const RAKE = -0.337;
+    mesh(roundedBox(2.44, 1.16, 2.35, 0.12, 3), M.paint, 0, 1.74, 3.125, { parent: cab });
+    mesh(box(2.4, 0.08, 0.16), M.paint, 0, 2.32, 4.22, { parent: cab });
+    mesh(roundedBox(2.44, 0.26, 2.05, 0.10, 3), M.paint, 0, 3.25, 2.975, { parent: cab });
+    mesh(box(2.44, 0.8, 0.10), M.paint, 0, 2.72, 2.0, { parent: cab });
+    mesh(box(0.08, 0.8, 0.6), M.paint, 1.18, 2.72, 2.25, { parent: cab });
+    mesh(box(0.08, 0.8, 0.6), M.paint, -1.18, 2.72, 2.25, { parent: cab });
+    mesh(box(0.09, 0.9, 0.09), M.paint, 1.19, 2.72, 4.12, { parent: cab, rot: [RAKE, 0, 0] });
+    mesh(box(0.09, 0.9, 0.09), M.paint, -1.19, 2.72, 4.12, { parent: cab, rot: [RAKE, 0, 0] });
+    mesh(box(2.36, 0.86, 0.02), M.glass, 0, 2.72, 4.14, { parent: cab, rot: [RAKE, 0, 0], cast: false });
+    [1, -1].forEach(s => {
+      mesh(box(0.02, 0.8, 1.4), M.glass, s * 1.20, 2.72, 3.25, { parent: cab, cast: false });
+      mesh(merge([
+        place(box(0.03, 0.04, 1.42), 0, 0.39, 0), place(box(0.03, 0.04, 1.42), 0, -0.39, 0),
+        place(box(0.03, 0.8, 0.04), 0, 0, 0.71), place(box(0.03, 0.8, 0.04), 0, 0, -0.71),
+        place(box(0.03, 0.8, 0.035), 0, 0, -0.18)
+      ]), M.dark, s * 1.205, 2.72, 3.25, { parent: cab });
+      mesh(merge([place(box(0.006, 1.06, 0.014), 0, 0, 0.7), place(box(0.006, 1.06, 0.014), 0, 0, -0.7)]), M.dark, s * 1.223, 1.78, 3.25, { parent: cab, cast: false });
+      mesh(box(0.025, 0.045, 0.17), M.chrome, s * 1.235, 2.16, 3.55, { parent: cab, cast: false });
+      mesh(new THREE.PlaneGeometry(0.75, 0.46), M.decal, s * 1.227, 1.76, 3.25, { parent: cab, rot: [0, s * Math.PI / 2, 0], cast: false, receive: false });
+    });
+    if (o.deflectorTop) {
+      const top = o.deflectorTop;
+      const sh = new THREE.Shape();
+      sh.moveTo(1.98, 3.36); sh.lineTo(3.7, 3.36); sh.quadraticCurveTo(2.6, 3.36 + (top - 3.36) * 0.72, 1.98, top); sh.lineTo(1.98, 3.36);
+      mesh(extrudeX(sh, 2.24, 0), M.paint, 0, 0, 0, { parent: cab });
+    }
+    if (o.highRoof) {
+      mesh(roundedBox(2.4, 0.62, 2.05, 0.18, 3), M.paint, 0, 3.6, 2.975, { parent: cab });
+      mesh(box(2.0, 0.05, 0.12), M.dark, 0, 3.92, 3.6, { parent: cab, cast: false });
+      mesh(merge([-0.9, -0.45, 0, 0.45, 0.9].map(x => place(box(0.08, 0.04, 0.06), x, 0, 0))), M.lampAmber, 0, 3.93, 3.9, { parent: cab, cast: false });
+    } else {
+      mesh(merge([-0.9, -0.45, 0, 0.45, 0.9].map(x => place(box(0.08, 0.04, 0.06), x, 0, 0))), M.lampAmber, 0, 3.40, 3.9, { parent: cab, cast: false });
+    }
+    if (o.extenders) {
+      mesh(box(0.06, 2.5, 0.55), M.paint, 1.21, 2.5, 1.7, { parent: cab });
+      mesh(box(0.06, 2.5, 0.55), M.paint, -1.21, 2.5, 1.7, { parent: cab });
+    }
+    mesh(box(2.3, 0.04, 0.3), M.paint, 0, 3.17, 4.06, { parent: cab, rot: [0.25, 0, 0] });
+    mesh(box(1.4, 0.62, 0.05), M.dark, 0, 1.86, 4.31, { parent: cab });
+    mesh(merge([1.66, 1.79, 1.92, 2.05].map(y => place(box(1.36, 0.035, 0.03), 0, y - 1.86, 0))), M.chrome, 0, 1.86, 4.335, { parent: cab, cast: false });
+    mesh(cyl(0.09, 0.09, 0.02, 32), M.chrome, 0, 1.86, 4.345, { parent: cab, rot: [Math.PI / 2, 0, 0], cast: false });
+    [1, -1].forEach(s => {
+      mesh(box(0.42, 0.24, 0.08), M.dark, s * 1.0, 1.72, 4.30, { parent: cab });
+      mesh(merge([place(cyl(0.065, 0.065, 0.04, 24), -0.09, 0.03, 0, [Math.PI / 2, 0, 0]), place(cyl(0.065, 0.065, 0.04, 24), 0.09, 0.03, 0, [Math.PI / 2, 0, 0])]), M.chrome, s * 1.0, 1.72, 4.33, { parent: cab, cast: false });
+      mesh(box(0.34, 0.03, 0.012), M.drl, s * 1.0, 1.63, 4.345, { parent: cab, cast: false, receive: false });
+      mesh(box(0.40, 0.22, 0.012), M.lampGlass, s * 1.0, 1.72, 4.352, { parent: cab, cast: false, receive: false });
+      const sp = new THREE.Sprite(glowMat);
+      sp.position.set(s * 1.0, 1.65, 4.38);
+      sp.scale.set(0.9, 0.5, 1);
+      cab.add(sp);
+    });
+    mesh(roundedBox(2.5, 0.36, 0.22, 0.07, 2), M.paint, 0, 1.24, 4.24, { parent: cab });
+    mesh(merge([place(cyl(0.06, 0.06, 0.02, 24), -0.9, 0, 0, [Math.PI / 2, 0, 0]), place(cyl(0.06, 0.06, 0.02, 24), 0.9, 0, 0, [Math.PI / 2, 0, 0])]), M.lampWhite, 0, 1.22, 4.355, { parent: cab, cast: false });
+    mesh(box(0.52, 0.11, 0.012), M.plate, 0, 1.2, 4.356, { parent: cab, cast: false });
+    mesh(box(2.4, 0.08, 0.14), M.matte, 0, 1.02, 4.2, { parent: cab });
+    [1, -1].forEach(s => {
+      mesh(box(0.12, 0.52, 0.5), M.paint, s * 1.16, 0.9, 4.05, { parent: cab });
+      mesh(merge([place(box(0.22, 0.03, 0.42), 0, 0, 0), place(box(0.22, 0.03, 0.42), 0, 0.28, 0), place(box(0.03, 0.31, 0.03), 0.09, 0.14, 0.18), place(box(0.03, 0.31, 0.03), 0.09, 0.14, -0.18)]), M.steel, s * 1.12, 0.62, 3.55, { parent: cab });
+      mesh(new THREE.TorusGeometry(0.66, 0.055, 8, 28, Math.PI), M.dark, s * 1.19, 0.49, 2.7, { parent: cab, rot: [0, Math.PI / 2, 0] });
+      mesh(box(0.34, 0.36, 0.02), M.flap, s * 0.98, 0.34, 2.06, { parent: cab });
+      mesh(roundedBox(0.16, 0.46, 0.09, 0.03, 1), M.dark, s * 1.48, 2.85, 3.85, { parent: cab });
+      mesh(box(0.13, 0.42, 0.006), M.mirrorGlass, s * 1.48, 2.85, 3.80, { parent: cab, cast: false });
+      mesh(roundedBox(0.14, 0.16, 0.08, 0.03, 1), M.dark, s * 1.48, 2.5, 3.85, { parent: cab });
+      mesh(box(0.11, 0.12, 0.006), M.mirrorGlass, s * 1.48, 2.5, 3.805, { parent: cab, cast: false });
+      mesh(merge([place(cyl(0.014, 0.014, 0.28, 12), 0, 0.15, 0, [0, 0, Math.PI / 2]), place(cyl(0.014, 0.014, 0.28, 12), 0, -0.2, 0, [0, 0, Math.PI / 2])]), M.dark, s * 1.34, 2.85, 3.88, { parent: cab, cast: false });
+    });
+    mesh(box(0.02, 0.5, 0.012), M.dark, 0.42, 2.5, 4.235, { parent: cab, rot: [RAKE, 0, 1.15], cast: false });
+    mesh(box(0.02, 0.5, 0.012), M.dark, -0.32, 2.5, 4.235, { parent: cab, rot: [RAKE, 0, 1.15], cast: false });
+    mesh(box(2.3, 0.12, 0.55), M.dash, 0, 2.38, 3.95, { parent: cab, cast: false });
+    mesh(box(0.7, 0.05, 0.3), M.dash, 0.62, 2.45, 3.9, { parent: cab, cast: false });
+    [0.62, -0.62].forEach(x => {
+      mesh(box(0.55, 0.14, 0.5), M.seat, x, 2.39, 2.95, { parent: cab, cast: false });
+      mesh(box(0.55, 0.62, 0.14), M.seat, x, 2.68, 2.72, { parent: cab, cast: false });
+      mesh(box(0.3, 0.16, 0.12), M.seat, x, 3.0, 2.72, { parent: cab, cast: false });
+    });
+    mesh(new THREE.TorusGeometry(0.19, 0.018, 10, 32), M.dash, 0.62, 2.62, 3.66, { parent: cab, rot: [-1.15, 0, 0], cast: false });
+    mesh(cyl(0.02, 0.02, 0.32, 10), M.dash, 0.62, 2.52, 3.8, { parent: cab, rot: [0.5, 0, 0], cast: false });
+    return cab;
+  }
+
+  /* ---- ladder chassis for the rigids and the tractor (front axle at z 2.7 to match the cab) ---- */
+  function buildChassis(parent, wheels, o) {
+    const g = new THREE.Group();
+    parent.add(g);
+    const len = o.zFront - o.zRear, zc = (o.zFront + o.zRear) / 2;
+    const parts = [place(box(0.09, 0.22, len), 0.45, 0.89, zc), place(box(0.09, 0.22, len), -0.45, 0.89, zc)];
+    for (let z = o.zRear + 0.3; z < o.zFront - 0.3; z += 1.3) parts.push(place(box(0.9, 0.12, 0.06), 0, 0.89, z));
+    mesh(merge(parts), M.matte, 0, 0, 0, { parent: g });
+    const fa = o.frontAxle, ra = o.rearAxle;
+    mesh(merge([
+      place(cyl(0.06, 0.06, 1.8, 16), 0, 0.49, fa, [0, 0, Math.PI / 2]),
+      place(cyl(0.075, 0.075, 1.75, 16), 0, 0.49, ra, [0, 0, Math.PI / 2]),
+      place(new THREE.SphereGeometry(0.2, 18, 14), 0.08, 0.49, ra),
+      place(cyl(0.045, 0.045, 2.0 - ra, 12), 0, 0.6, (2.0 + ra) / 2, [Math.PI / 2, 0, 0]),
+      place(box(0.09, 0.05, 1.1), 0.45, 0.62, fa), place(box(0.09, 0.05, 1.1), -0.45, 0.62, fa),
+      place(box(0.09, 0.07, 1.3), 0.45, 0.64, ra), place(box(0.09, 0.07, 1.3), -0.45, 0.64, ra),
+      place(box(0.5, 0.42, 0.9), 0, 0.7, 2.3), place(box(0.9, 0.5, 0.9), 0, 0.88, 3.5)
+    ]), M.steel, 0, 0, 0, { parent: g });
+    const tz = (fa + ra) / 2 + 0.3;
+    if (o.tanks === 'both') {
+      [1, -1].forEach(s => {
+        mesh(cyl(0.32, 0.32, 1.0, 28), M.alu, s * 0.86, 0.6, tz, { parent: g, rot: [Math.PI / 2, 0, 0] });
+        mesh(merge([place(box(0.1, 0.04, 0.42), 0, -0.3, -0.3), place(box(0.1, 0.04, 0.42), 0, -0.3, 0.3), place(box(0.4, 0.04, 0.35), s * 0.14, 0.38, 0)]), M.dark, s * 0.86, 0.6, tz, { parent: g });
+      });
+      mesh(box(0.5, 0.5, 0.6), M.steel, 0.95, 0.6, ra + 0.9, { parent: g });
+    } else {
+      mesh(cyl(0.3, 0.3, 1.3, 28), M.alu, 0.83, 0.58, tz, { parent: g, rot: [Math.PI / 2, 0, 0] });
+      mesh(merge([place(box(0.1, 0.04, 0.42), 0.83, 0.3, tz - 0.45), place(box(0.1, 0.04, 0.42), 0.83, 0.3, tz + 0.45), place(box(0.66, 0.4, 0.7), -0.86, 0.6, tz + 0.1)]), M.dark, 0, 0, 0, { parent: g });
+      mesh(merge([place(cyl(0.13, 0.13, 0.7, 20), -0.72, 0.45, tz - 1.0, [Math.PI / 2, 0, 0]),
+        place(cyl(0.15, 0.15, 0.8, 20), -0.72, 0.56, 1.5, [Math.PI / 2, 0, 0]), place(cyl(0.035, 0.035, 0.5, 12), -0.72, 0.42, 0.95, [1.2, 0, 0])]), M.steel, 0, 0, 0, { parent: g });
+    }
+    if (o.guards !== false) {
+      const gz0 = ra + 0.85, gz1 = fa - 0.85, gl = gz1 - gz0, gc = (gz0 + gz1) / 2;
+      [1, -1].forEach(s => {
+        mesh(merge([place(box(0.05, 0.08, gl), 0, 0.42, 0), place(box(0.05, 0.08, gl), 0, 0.72, 0), place(box(0.05, 0.4, 0.05), 0, 0.57, -gl / 2 + 0.15), place(box(0.05, 0.4, 0.05), 0, 0.57, gl / 2 - 0.15)]), M.alu, s * 1.2, 0, gc, { parent: g });
+      });
+    }
+    [1, -1].forEach(s => mesh(box(0.36, 0.42, 0.02), M.flap, s * 0.85, 0.34, ra - 0.58, { parent: g }));
+    if (o.spare) {
+      const sp = makeWheel(WHEEL_TRUCK, false);
+      sp.outer.position.set(0, 0.55, ra - 1.4);
+      sp.outer.rotation.x = Math.PI;
+      g.add(sp.outer);
+    }
+    addWheel(g, WHEEL_TRUCK, wheels, 0.98, fa, true);
+    addWheel(g, WHEEL_TRUCK, wheels, -0.98, fa, true);
+    addWheel(g, WHEEL_TRUCK, wheels, 0.99, ra, true);
+    addWheel(g, WHEEL_TRUCK, wheels, -0.99, ra, true);
+    addWheel(g, WHEEL_TRUCK, wheels, 0.66, ra, false);
+    addWheel(g, WHEEL_TRUCK, wheels, -0.66, ra, false);
+    return g;
+  }
+
+  const Z_AXIS = new THREE.Vector3(0, 0, 1);
+  const PALLET = (function () {
+    const g = [];
+    [[-0.3175, 0.145], [-0.1875, 0.1], [0, 0.145], [0.1875, 0.1], [0.3175, 0.145]].forEach(b => g.push(place(box(b[1], 0.022, 1.18), b[0], 0.133, 0)));
+    [-0.5175, 0, 0.5175].forEach(z => g.push(place(box(0.78, 0.022, 0.145), 0, 0.111, z)));
+    [-0.3175, 0, 0.3175].forEach(x => [-0.5175, 0, 0.5175].forEach(z => g.push(place(box(0.145, 0.078, 0.145), x, 0.061, z))));
+    [[-0.3175, 0.1], [0, 0.145], [0.3175, 0.1]].forEach(b => g.push(place(box(b[1], 0.022, 1.18), b[0], 0.011, 0)));
+    return merge(g);
+  })();
+
+
+  /* ---- 12 t dry-freight box body (hollow, with pallets, straps and opening doors) ---- */
+  function buildBoxBody(parent) {
+    const body = new THREE.Group();
+    parent.add(body);
+    const zc = -1.45;
+    mesh(box(2.5, 0.12, 6.1), [M.alu, M.alu, M.plywood, M.matte, M.alu, M.alu], 0, 1.06, zc, { parent: body });
+    mesh(box(0.05, 2.6, 6.1), [M.panel, M.inner, M.alu, M.alu, M.alu, M.alu], 1.225, 2.42, zc, { parent: body });
+    mesh(box(0.05, 2.6, 6.1), [M.inner, M.panel, M.alu, M.alu, M.alu, M.alu], -1.225, 2.42, zc, { parent: body });
+    mesh(box(2.4, 0.05, 6.1), [M.alu, M.alu, M.panelPlain, M.ceiling, M.alu, M.alu], 0, 3.695, zc, { parent: body });
+    mesh(box(2.4, 2.55, 0.05), [M.alu, M.alu, M.alu, M.alu, M.panelPlain, M.inner], 0, 2.395, 1.575, { parent: body });
+    mesh(merge([
+      place(box(0.07, 2.72, 0.07), 1.24, 2.36, 1.575), place(box(0.07, 2.72, 0.07), -1.24, 2.36, 1.575),
+      place(box(0.07, 0.05, 6.16), 1.24, 3.715, -1.47), place(box(0.07, 0.05, 6.16), -1.24, 3.715, -1.47),
+      place(box(2.55, 0.05, 0.07), 0, 3.715, 1.585),
+      place(box(0.07, 0.10, 6.16), 1.24, 0.97, -1.47), place(box(0.07, 0.10, 6.16), -1.24, 0.97, -1.47),
+      place(box(0.08, 2.6, 0.08), 1.21, 2.42, -4.54), place(box(0.08, 2.6, 0.08), -1.21, 2.42, -4.54),
+      place(box(2.5, 0.10, 0.08), 0, 3.67, -4.54), place(box(2.5, 0.12, 0.08), 0, 1.06, -4.54),
+      place(box(2.4, 0.012, 0.12), 0, 1.125, -4.44)
+    ]), M.alu, 0, 0, 0, { parent: body });
+    mesh(box(0.006, 0.055, 5.6), M.tape, 1.256, 1.32, -1.5, { parent: body, cast: false });
+    mesh(box(0.006, 0.055, 5.6), M.tape, -1.256, 1.32, -1.5, { parent: body, cast: false });
+    mesh(merge([1.2, -1.45].map(z => place(box(0.02, 0.05, 0.1), 0, 0, z)).concat([1.2, -1.45].map(z => place(box(0.02, 0.05, 0.1), -2.52, 0, z)))), M.lampAmber, 1.26, 1.45, 0, { parent: body, cast: false });
+    mesh(merge([place(box(0.02, 0.05, 0.1), 0, 0, 0), place(box(0.02, 0.05, 0.1), -2.52, 0, 0)]), M.lampRed, 1.26, 1.45, -4.1, { parent: body, cast: false });
+    mesh(new THREE.PlaneGeometry(2.2, 1.354), M.decal, 1.256, 2.6, -1.55, { parent: body, rot: [0, Math.PI / 2, 0], cast: false, receive: false });
+    mesh(new THREE.PlaneGeometry(2.2, 1.354), M.decal, -1.256, 2.6, -1.55, { parent: body, rot: [0, -Math.PI / 2, 0], cast: false, receive: false });
+    buildRearEnd(body, -4.5, {});
+    const doors = buildRearDoors(body, -4.5, { yBottom: 1.15, height: 2.5 });
+
+    const interior = new THREE.Group();
+    body.add(interior);
+    [1, -1].forEach(s => {
+      mesh(box(0.02, 0.13, 5.95), M.etrack, s * 1.185, 1.75, -1.475, { parent: interior, cast: false });
+      mesh(box(0.02, 0.13, 5.95), M.etrack, s * 1.185, 2.75, -1.475, { parent: interior, cast: false });
+    });
+    mesh(merge([place(box(0.06, 0.012, 5.6), 0.55, 0, 0), place(box(0.06, 0.012, 5.6), -0.55, 0, 0)]), M.led, 0, 3.66, -1.45, { parent: interior, cast: false });
+    const lights = [new THREE.PointLight(0xfff1dc, 0, 7, 2), new THREE.PointLight(0xfff1dc, 0, 7, 2)];
+    lights[0].position.set(0, 3.45, -3.1);
+    lights[1].position.set(0, 3.45, -0.4);
+    lights.forEach(l => { l.visible = false; interior.add(l); });
+    mesh(cyl(0.032, 0.032, 2.36, 16), M.alu, 0, 2.05, -2.25, { parent: interior, rot: [0, 0, Math.PI / 2] });
+    mesh(merge([place(box(0.05, 0.16, 0.06), 1.17, 0, 0), place(box(0.05, 0.16, 0.06), -1.17, 0, 0)]), M.flap, 0, 2.05, -2.25, { parent: interior });
+
+    const COLS = [-0.79, 0, 0.79], ROWS = [0.93, -0.32, -1.57], FLOOR_Y = 1.12, DECK = FLOOR_Y + 0.144;
+    const palletParts = [];
+    ROWS.forEach(z => COLS.forEach(x => palletParts.push(place(PALLET.clone(), x, FLOOR_Y, z))));
+    mesh(merge(palletParts), M.pallet, 0, 0, 0, { parent: interior });
+    const loadHeights = [[1.55, 1.2, 1.55], [1.3, 0.88, 1.1], [1.0, 1.4, 1.2]];
+    ROWS.forEach((z, r) => COLS.forEach((x, c) => {
+      const h = loadHeights[r][c];
+      if (r === 1 && c === 1) {
+        const drums = [], rings = [];
+        [[-0.19, -0.3], [0.19, -0.3], [-0.19, 0.3], [0.19, 0.3]].forEach(o => {
+          drums.push(place(cyl(0.285, 0.285, 0.88, 28), x + o[0], DECK + 0.44, z + o[1]));
+          [0.2, 0.44, 0.68].forEach(ry => rings.push(place(new THREE.TorusGeometry(0.29, 0.012, 6, 36), x + o[0], DECK + ry, z + o[1], [Math.PI / 2, 0, 0])));
+          rings.push(place(cyl(0.26, 0.26, 0.02, 28), x + o[0], DECK + 0.885, z + o[1]));
+        });
+        mesh(merge(drums), M.drum, 0, 0, 0, { parent: interior });
+        mesh(merge(rings), M.steel, 0, 0, 0, { parent: interior });
+      } else if (r === 1 && c === 2) {
+        mesh(box(0.76, h, 1.14), M.plywood, x, DECK + h / 2, z, { parent: interior });
+        const battens = [];
+        [-0.36, 0, 0.36].forEach(bx => { battens.push(place(box(0.05, h, 0.03), bx, 0, 0.585)); battens.push(place(box(0.05, h, 0.03), bx, 0, -0.585)); });
+        [-0.55, 0.55].forEach(bz => battens.push(place(box(0.03, h, 0.05), 0.395, 0, bz)));
+        battens.push(place(box(0.03, 0.05, 1.2), 0.395, h / 2 - 0.03, 0), place(box(0.03, 0.05, 1.2), -0.395, h / 2 - 0.03, 0), place(box(0.82, 0.03, 0.05), 0, h / 2 - 0.02, 0.585), place(box(0.82, 0.03, 0.05), 0, h / 2 - 0.02, -0.585));
+        mesh(merge(battens), M.pallet, x, DECK + h / 2, z, { parent: interior });
+      } else {
+        mesh(box(0.76, h, 1.16), M.carton, x, DECK + h / 2, z, { parent: interior });
+        const w = mesh(box(0.79, h + 0.02, 1.19), M.wrap, x, DECK + h / 2 - 0.01, z, { parent: interior, cast: false });
+        w.renderOrder = 1;
+      }
+    }));
+    ROWS.forEach((z, r) => {
+      const T = loadHeights[r].map(h => DECK + h + 0.012);
+      [-0.33, 0.33].forEach(dz => {
+        const pts = [[-1.19, 1.76], [-1.19, T[0]], [-0.41, T[0]], [-0.395, T[1]], [0.395, T[1]], [0.41, T[2]], [1.19, T[2]], [1.19, 1.76]].map(p => new THREE.Vector3(p[0], p[1], z + dz));
+        mesh(ribbon(pts, 0.05, Z_AXIS), M.strap, 0, 0, 0, { parent: interior, cast: false });
+        mesh(box(0.05, 0.14, 0.09), M.steel, 1.165, 1.97, z + dz, { parent: interior, cast: false });
+        mesh(box(0.04, 0.05, 0.08), M.steel, -1.17, 1.85, z + dz, { parent: interior, cast: false });
+      });
+    });
+    return { body, doorL: doors.doorL, doorR: doors.doorR, lights };
+  }
+  /* ---- curtainsider body (rigid or trailer): deck, headboard, roof, rippled curtains, rear doors ---- */
+  function buildCurtainBody(parent, o) {
+    const g = new THREE.Group();
+    parent.add(g);
+    const L = o.zFront - o.zBack, zc = (o.zFront + o.zBack) / 2, W = o.width, hw = W / 2;
+    const deckY = o.deckY, top = o.top, H = top - deckY;
+    mesh(box(W, 0.12, L), [M.alu, M.alu, M.plywood, M.matte, M.alu, M.alu], 0, deckY - 0.06, zc, { parent: g });
+    mesh(box(W - 0.1, H - 0.1, 0.08), [M.alu, M.alu, M.alu, M.alu, M.panelPlain, M.inner], 0, deckY + H / 2, o.zFront - 0.05, { parent: g });
+    mesh(merge([-0.9, -0.6, -0.3, 0, 0.3, 0.6, 0.9].map(f => place(box(0.04, H - 0.3, 0.03), f * hw, 0, 0))), M.alu, 0, deckY + H / 2, o.zFront - 0.0, { parent: g, cast: false });
+    mesh(box(W - 0.1, 0.06, L), [M.alu, M.alu, M.panelPlain, M.ceiling, M.alu, M.alu], 0, top - 0.03, zc, { parent: g });
+    const frame = [
+      place(box(0.1, 0.1, L), hw - 0.03, top - 0.05, zc), place(box(0.1, 0.1, L), -(hw - 0.03), top - 0.05, zc),
+      place(box(0.1, H, 0.1), hw - 0.05, deckY + H / 2, o.zBack + 0.05), place(box(0.1, H, 0.1), -(hw - 0.05), deckY + H / 2, o.zBack + 0.05),
+      place(box(0.1, H, 0.1), hw - 0.05, deckY + H / 2, o.zFront - 0.05), place(box(0.1, H, 0.1), -(hw - 0.05), deckY + H / 2, o.zFront - 0.05),
+      place(box(W, 0.12, 0.1), 0, top - 0.06, o.zBack + 0.05), place(box(W, 0.14, 0.1), 0, deckY - 0.07, o.zBack + 0.05),
+      place(box(0.08, 0.14, L), hw - 0.01, deckY - 0.05, zc), place(box(0.08, 0.14, L), -(hw - 0.01), deckY - 0.05, zc)
+    ];
+    mesh(merge(frame), M.alu, 0, 0, 0, { parent: g });
+    // curtains with a gentle ripple, more at the bottom than at the track
+    const cl = L - 0.3, ch = H - 0.2;
+    const cg = new THREE.PlaneGeometry(cl, ch, 220, 6);
+    const pa = cg.attributes.position;
+    for (let i = 0; i < pa.count; i++) {
+      const x = pa.getX(i), y = pa.getY(i);
+      const f = 1 - 0.65 * ((y + ch / 2) / ch);
+      pa.setZ(i, Math.sin(x * Math.PI * 2 / 0.6) * 0.016 * f + Math.sin(x * Math.PI * 2 / 2.3) * 0.008 * f);
+    }
+    cg.computeVertexNormals();
+    const cy = deckY + 0.1 + ch / 2;
+    mesh(cg, o.curtain, hw + 0.02, cy, zc, { parent: g, rot: [0, Math.PI / 2, 0], cast: false });
+    mesh(cg, o.curtain, -(hw + 0.02), cy, zc, { parent: g, rot: [0, -Math.PI / 2, 0], cast: false });
+    const buckles = [];
+    for (let z = o.zBack + 0.45; z < o.zFront - 0.3; z += 0.6) buckles.push(place(box(0.035, 0.09, 0.06), 0, 0, z));
+    mesh(merge(buckles), M.steel, hw + 0.04, deckY + 0.14, 0, { parent: g, cast: false });
+    mesh(merge(buckles.map(b => b.clone())), M.steel, -(hw + 0.04), deckY + 0.14, 0, { parent: g, cast: false });
+    mesh(box(0.006, 0.055, L - 0.6), M.tape, hw + 0.025, deckY + 0.02, zc, { parent: g, cast: false });
+    mesh(box(0.006, 0.055, L - 0.6), M.tape, -(hw + 0.025), deckY + 0.02, zc, { parent: g, cast: false });
+    const markers = [];
+    [0.3, 0, -0.3, -0.6, -0.9].forEach(f => markers.push(place(box(0.02, 0.05, 0.1), 0, 0, zc + f * L * 0.5)));
+    mesh(merge(markers), M.lampAmber, hw + 0.03, deckY + 0.3, 0, { parent: g, cast: false });
+    mesh(merge(markers.map(b => b.clone())), M.lampAmber, -(hw + 0.03), deckY + 0.3, 0, { parent: g, cast: false });
+    const doors = buildRearDoors(g, o.zBack, { width: W, yBottom: deckY + 0.02, height: H - 0.16 });
+    return { group: g, doorL: doors.doorL, doorR: doors.doorR };
+  }
+
+  /* ---- flatbed body with a strapped load of bricks and timber ---- */
+  function buildFlatbed(parent, o) {
+    const g = new THREE.Group();
+    parent.add(g);
+    const L = o.zFront - o.zBack, zc = (o.zFront + o.zBack) / 2;
+    mesh(box(2.5, 0.16, L), [M.alu, M.alu, M.deck, M.matte, M.alu, M.alu], 0, 1.08, zc, { parent: g });
+    const edge = [place(box(0.06, 0.2, L), 1.22, 1.1, zc), place(box(0.06, 0.2, L), -1.22, 1.1, zc), place(box(2.5, 0.2, 0.06), 0, 1.1, o.zBack + 0.03)];
+    for (let z = o.zBack + 0.4; z < o.zFront - 0.3; z += 0.55) { edge.push(place(cyl(0.02, 0.02, 0.12, 8), 1.25, 0.95, z, [Math.PI / 2, 0, 0]), place(cyl(0.02, 0.02, 0.12, 8), -1.25, 0.95, z, [Math.PI / 2, 0, 0])); }
+    mesh(merge(edge), M.alu, 0, 0, 0, { parent: g });
+    // headboard with rails and a light bar
+    mesh(box(2.5, 1.95, 0.08), M.alu, 0, 2.13, o.zFront - 0.04, { parent: g });
+    mesh(merge([0.3, 0.9, 1.5].map(y => place(box(2.4, 0.06, 0.04), 0, y, 0))), M.steel, 0, 1.3, o.zFront - 0.1, { parent: g, cast: false });
+    mesh(merge([-0.7, 0, 0.7].map(x => place(box(0.08, 0.05, 0.08), x, 0, 0))), M.lampAmber, 0, 3.12, o.zFront - 0.04, { parent: g, cast: false });
+    // load: two rows of wrapped brick packs and a bundle of timber
+    const packs = [[0.63, 0.6], [-0.63, 0.6], [0.63, -0.5], [-0.63, -0.5]];
+    packs.forEach(p => {
+      mesh(box(0.95, 1.0, 1.05), M.brick, p[0], 1.66, p[1], { parent: g });
+      const w = mesh(box(0.98, 1.03, 1.08), M.wrap, p[0], 1.665, p[1], { parent: g, cast: false });
+      w.renderOrder = 1;
+    });
+    const timber = [];
+    for (let i = 0; i < 6; i++) for (let j = 0; j < 5; j++) timber.push(place(box(0.098, 0.098, 4.2), -0.25 + i * 0.1, 1.27 + j * 0.1, -3.3));
+    timber.push(place(box(0.7, 0.08, 0.1), 0, 1.2, -1.5), place(box(0.7, 0.08, 0.1), 0, 1.2, -3.3), place(box(0.7, 0.08, 0.1), 0, 1.2, -5.1));
+    mesh(merge(timber), M.timber, 0, 0, 0, { parent: g });
+    const strapAt = (z, pts) => mesh(ribbon(pts.map(p => new THREE.Vector3(p[0], p[1], z)), 0.05, Z_AXIS), M.strap, 0, 0, 0, { parent: g, cast: false });
+    [0.9, 0.3, -0.2, -0.8].forEach(z => strapAt(z, [[-1.26, 0.92], [-1.26, 1.16], [-1.12, 2.19], [1.12, 2.19], [1.26, 1.16], [1.26, 0.92]]));
+    [-2.0, -3.3, -4.6].forEach(z => strapAt(z, [[-1.26, 0.92], [-1.26, 1.16], [-0.31, 1.78], [0.31, 1.78], [1.26, 1.16], [1.26, 0.92]]));
+    mesh(merge([0.9, 0.3, -0.2, -0.8, -2.0, -3.3, -4.6].map(z => place(box(0.06, 0.1, 0.09), 0, 0, z))), M.steel, 1.27, 1.05, 0, { parent: g, cast: false });
+    buildRearEnd(g, o.zBack, { step: false });
+    return g;
+  }
+
+  /* ---- 3.5 t panel van ---- */
+  function buildVan(parent, wheels) {
+    const g = new THREE.Group();
+    parent.add(g);
+    mesh(roundedBox(2.0, 1.95, 3.85, 0.15, 3), M.paint, 0, 1.58, -1.0, { parent: g });
+    mesh(roundedBox(1.98, 1.0, 2.1, 0.12, 3), M.paint, 0, 1.05, 1.9, { parent: g });
+    mesh(roundedBox(1.9, 0.42, 1.0, 0.12, 2), M.paint, 0, 1.36, 2.45, { parent: g });
+    (function () {
+      const sh = new THREE.Shape();
+      sh.moveTo(0.85, 1.55); sh.lineTo(1.95, 1.55); sh.lineTo(1.2, 2.42); sh.lineTo(0.85, 2.42); sh.lineTo(0.85, 1.55);
+      mesh(extrudeX(sh, 1.94, 0), M.dash, 0, 0, 0, { parent: g, cast: true });
+    })();
+    mesh(roundedBox(2.0, 0.2, 0.9, 0.09, 2), M.paint, 0, 2.46, 0.95, { parent: g });
+    const RK = -0.712;
+    mesh(box(1.86, 1.1, 0.02), M.glass, 0, 1.993, 1.584, { parent: g, rot: [RK, 0, 0], cast: false });
+    mesh(box(0.08, 1.12, 0.07), M.paint, 0.95, 1.993, 1.584, { parent: g, rot: [RK, 0, 0] });
+    mesh(box(0.08, 1.12, 0.07), M.paint, -0.95, 1.993, 1.584, { parent: g, rot: [RK, 0, 0] });
+    mesh(box(0.02, 0.5, 0.012), M.dark, 0.4, 1.75, 1.8, { parent: g, rot: [RK, 0, 1.2], cast: false });
+    mesh(box(0.02, 0.5, 0.012), M.dark, -0.3, 1.75, 1.8, { parent: g, rot: [RK, 0, 1.2], cast: false });
+    [1, -1].forEach(s => {
+      mesh(box(0.02, 0.62, 0.95), M.glass, s * 0.976, 2.0, 1.33, { parent: g, cast: false });
+      mesh(merge([place(box(0.03, 0.04, 0.97), 0, 0.33, 0), place(box(0.03, 0.04, 0.97), 0, -0.33, 0), place(box(0.03, 0.66, 0.04), 0, 0, 0.49), place(box(0.03, 0.66, 0.04), 0, 0, -0.49)]), M.dark, s * 0.98, 2.0, 1.33, { parent: g });
+      mesh(merge([place(box(0.006, 1.7, 0.014), 0, 0, 0), place(box(0.006, 1.7, 0.014), 0, 0, -1.2), place(box(0.006, 0.014, 1.2), 0, 0.85, -0.6)]), M.dark, s * 1.003, 1.5, 0.86, { parent: g, cast: false });
+      mesh(box(0.025, 0.04, 0.16), M.chrome, s * 1.01, 1.42, 1.1, { parent: g, cast: false });
+      mesh(box(0.025, 0.04, 0.16), M.chrome, s * 1.01, 1.42, -0.1, { parent: g, cast: false });
+      mesh(roundedBox(0.12, 0.26, 0.1, 0.03, 1), M.dark, s * 1.14, 1.95, 1.75, { parent: g });
+      mesh(box(0.1, 0.22, 0.006), M.mirrorGlass, s * 1.14, 1.95, 1.70, { parent: g, cast: false });
+      mesh(cyl(0.012, 0.012, 0.2, 10), M.dark, s * 1.05, 1.98, 1.78, { parent: g, rot: [0, 0, Math.PI / 2], cast: false });
+      mesh(new THREE.TorusGeometry(0.47, 0.045, 8, 24, Math.PI), M.dark, s * 0.985, 0.36, 1.7, { parent: g, rot: [0, Math.PI / 2, 0] });
+      mesh(new THREE.TorusGeometry(0.47, 0.045, 8, 24, Math.PI), M.dark, s * 0.985, 0.36, -1.9, { parent: g, rot: [0, Math.PI / 2, 0] });
+      mesh(box(0.42, 0.22, 0.08), M.dark, s * 0.72, 1.3, 2.94, { parent: g });
+      mesh(cyl(0.06, 0.06, 0.04, 20), M.chrome, s * 0.72, 1.32, 2.97, { parent: g, rot: [Math.PI / 2, 0, 0], cast: false });
+      mesh(box(0.34, 0.025, 0.012), M.drl, s * 0.72, 1.22, 2.985, { parent: g, cast: false, receive: false });
+      mesh(box(0.4, 0.2, 0.012), M.lampGlass, s * 0.72, 1.3, 2.99, { parent: g, cast: false, receive: false });
+      const sp = new THREE.Sprite(glowMat);
+      sp.position.set(s * 0.72, 1.25, 3.02);
+      sp.scale.set(0.7, 0.4, 1);
+      g.add(sp);
+      mesh(box(0.12, 0.62, 0.06), M.dark, s * 0.92, 1.35, -2.96, { parent: g });
+      mesh(box(0.09, 0.2, 0.012), M.lampRed, s * 0.92, 1.5, -2.995, { parent: g, cast: false });
+      mesh(box(0.09, 0.16, 0.012), M.lampAmber, s * 0.92, 1.3, -2.995, { parent: g, cast: false });
+      mesh(box(0.09, 0.12, 0.012), M.lampWhite, s * 0.92, 1.14, -2.995, { parent: g, cast: false });
+      mesh(new THREE.PlaneGeometry(1.6, 0.985), M.decal, s * 1.006, 1.6, -1.0, { parent: g, rot: [0, s * Math.PI / 2, 0], cast: false, receive: false });
+    });
+    mesh(roundedBox(2.0, 0.42, 0.3, 0.1, 2), M.dark, 0, 0.78, 2.9, { parent: g });
+    mesh(box(1.0, 0.3, 0.05), M.dark, 0, 1.25, 2.955, { parent: g });
+    mesh(merge([1.18, 1.3].map(y => place(box(0.96, 0.03, 0.02), 0, y - 1.25, 0))), M.chrome, 0, 1.25, 2.985, { parent: g, cast: false });
+    mesh(cyl(0.07, 0.07, 0.02, 24), M.chrome, 0, 1.47, 2.995, { parent: g, rot: [Math.PI / 2, 0, 0], cast: false });
+    mesh(box(0.52, 0.11, 0.012), M.plate, 0, 0.78, 3.06, { parent: g, cast: false });
+    mesh(box(2.0, 0.22, 0.14), M.dark, 0, 0.5, -2.98, { parent: g });
+    mesh(box(0.52, 0.11, 0.012), M.plate, 0, 0.56, -3.06, { parent: g, cast: false });
+    mesh(merge([place(box(1.6, 0.25, 4.6), 0, 0.45, 0), place(cyl(0.04, 0.04, 1.5, 12), 0, 0.36, 1.7, [0, 0, Math.PI / 2]), place(cyl(0.05, 0.05, 1.5, 12), 0, 0.36, -1.9, [0, 0, Math.PI / 2]), place(new THREE.SphereGeometry(0.14, 14, 10), 0, 0.36, -1.9), place(cyl(0.03, 0.03, 3.4, 10), 0.6, 0.32, -0.6, [Math.PI / 2, 0, 0])]), M.matte, 0, 0, 0, { parent: g });
+    const doors = buildRearDoors(g, -2.93, { width: 1.7, yBottom: 0.66, height: 1.84 });
+    [doors.doorL, doors.doorR].forEach(d => d.traverse(obj => { if (obj.isMesh && Array.isArray(obj.material)) obj.material = [M.alu, M.alu, M.alu, M.alu, M.inner, M.paint]; }));
+    addWheel(g, WHEEL_VAN, wheels, 0.84, 1.7, true);
+    addWheel(g, WHEEL_VAN, wheels, -0.84, 1.7, true);
+    addWheel(g, WHEEL_VAN, wheels, 0.84, -1.9, true);
+    addWheel(g, WHEEL_VAN, wheels, -0.84, -1.9, true);
+    aoBlob(g, 2.6, 6.6, 0.05);
+    return g;
+  }
+
+  /* ---- 4x2 tractor unit ---- */
+  function buildTractor(parent, wheels) {
+    const g = new THREE.Group();
+    parent.add(g);
+    buildCab(g, { highRoof: true, extenders: true });
+    buildChassis(g, wheels, { zRear: -1.65, zFront: 3.9, frontAxle: 2.7, rearAxle: -0.95, tanks: 'both', guards: false });
+    mesh(box(2.3, 0.03, 0.55), M.checker, 0, 1.02, 1.6, { parent: g });
+    mesh(merge([place(box(0.95, 0.06, 0.95), 0, 1.15, -0.35), place(box(0.3, 0.1, 0.5), 0.35, 1.07, -0.35), place(box(0.3, 0.1, 0.5), -0.35, 1.07, -0.35), place(box(0.95, 0.06, 0.4), 0, 1.1, -0.98, [0.35, 0, 0])]), M.steel, 0, 0, 0, { parent: g });
+    mesh(merge([place(cyl(0.12, 0.12, 0.9, 16), 0, 0.72, 1.0, [0, 0, Math.PI / 2]), place(box(0.08, 0.5, 0.08), 0, 1.3, 1.3), place(box(0.5, 0.06, 0.2), 0, 1.58, 1.3)]), M.steel, 0, 0, 0, { parent: g });
+    [1, -1].forEach(s => {
+      const fender = new THREE.CylinderGeometry(0.62, 0.62, 0.68, 20, 1, true, Math.PI, Math.PI);
+      fender.rotateZ(-Math.PI / 2);
+      mesh(fender, M.dark, s * 0.83, 0.49, -0.95, { parent: g });
+      mesh(box(0.62, 0.45, 0.02), M.flap, s * 0.83, 0.3, -1.63, { parent: g });
+    });
+    mesh(box(2.3, 0.14, 0.08), M.dark, 0, 0.75, -1.72, { parent: g });
+    [1, -1].forEach(s => {
+      mesh(box(0.16, 0.11, 0.012), M.lampRed, s * 0.9 - 0.13, 0.75, -1.765, { parent: g, cast: false });
+      mesh(box(0.1, 0.11, 0.012), M.lampAmber, s * 0.9 + 0.05, 0.75, -1.765, { parent: g, cast: false });
+    });
+    aoBlob(g, 3.0, 6.6, 1.35);
+    return g;
+  }
+
+  /* ---- 13.6 m tri-axle curtainsider trailer (local frame: front 6.8, rear -6.8, kingpin 5.2) ---- */
+  function buildTrailer(parent, wheels) {
+    const g = new THREE.Group();
+    parent.add(g);
+    const body = buildCurtainBody(g, { zFront: 6.8, zBack: -6.8, deckY: 1.36, top: 4.0, width: 2.55, curtain: M.curtainTrailer });
+    const frame = [place(box(0.12, 0.28, 10.2), 0.5, 1.1, -1.5), place(box(0.12, 0.28, 10.2), -0.5, 1.1, -1.5), place(box(2.0, 0.06, 2.8), 0, 1.21, 5.2)];
+    for (let z = 3.3; z > -6.5; z -= 1.2) frame.push(place(box(2.2, 0.1, 0.06), 0, 1.19, z));
+    mesh(merge(frame), M.matte, 0, 0, 0, { parent: g });
+    mesh(cyl(0.05, 0.05, 0.12, 12), M.steel, 0, 1.1, 5.2, { parent: g });
+    mesh(merge([
+      place(box(0.12, 0.7, 0.12), 0.75, 0.88, 3.0), place(box(0.12, 0.7, 0.12), -0.75, 0.88, 3.0),
+      place(box(0.22, 0.08, 0.32), 0.75, 0.5, 3.0), place(box(0.22, 0.08, 0.32), -0.75, 0.5, 3.0),
+      place(box(1.5, 0.08, 0.08), 0, 1.12, 3.0), place(cyl(0.02, 0.02, 0.4, 8), 0.95, 1.0, 3.0, [0, 0, Math.PI / 2])
+    ]), M.steel, 0, 0, 0, { parent: g });
+    [1, -1].forEach(s => {
+      mesh(merge([place(box(0.05, 0.08, 5.0), 0, 0.5, 0), place(box(0.05, 0.08, 5.0), 0, 0.8, 0), place(box(0.05, 0.4, 0.05), 0, 0.65, -2.35), place(box(0.05, 0.4, 0.05), 0, 0.65, 0), place(box(0.05, 0.4, 0.05), 0, 0.65, 2.35)]), M.alu, s * 1.25, 0, -0.1, { parent: g });
+    });
+    const axles = [-3.4, -4.75, -6.1];
+    const bogie = [];
+    axles.forEach(z => {
+      bogie.push(place(cyl(0.075, 0.075, 1.75, 16), 0, 0.49, z, [0, 0, Math.PI / 2]));
+      bogie.push(place(cyl(0.15, 0.15, 0.3, 16), 0.55, 0.82, z), place(cyl(0.15, 0.15, 0.3, 16), -0.55, 0.82, z));
+      bogie.push(place(box(0.08, 0.06, 1.0), 0.55, 0.62, z), place(box(0.08, 0.06, 1.0), -0.55, 0.62, z));
+      addWheel(g, WHEEL_TRUCK, wheels, 0.99, z, true);
+      addWheel(g, WHEEL_TRUCK, wheels, -0.99, z, true);
+      addWheel(g, WHEEL_TRUCK, wheels, 0.66, z, false);
+      addWheel(g, WHEEL_TRUCK, wheels, -0.66, z, false);
+      [1, -1].forEach(s => {
+        const fender = new THREE.CylinderGeometry(0.6, 0.6, 0.7, 20, 1, true, Math.PI, Math.PI);
+        fender.rotateZ(-Math.PI / 2);
+        mesh(fender, M.dark, s * 0.83, 0.49, z, { parent: g });
+      });
+    });
+    mesh(merge(bogie), M.steel, 0, 0, 0, { parent: g });
+    [1, -1].forEach(s => mesh(box(0.62, 0.45, 0.02), M.flap, s * 0.83, 0.3, -6.72, { parent: g }));
+    buildRearEnd(g, -6.8, { width: 2.55, barY: 0.55, step: false });
+    aoBlob(g, 3.2, 14.0, 0);
+    return { group: g, doorL: body.doorL, doorR: body.doorR };
+  }
+  /* =========================================================================
+     Scene, studio lighting, floor
+     ========================================================================= */
+  const scene = new THREE.Scene();
+  const stage = new THREE.Group();   // everything that turns with the turntable
+  scene.add(stage);
+
+  const key = new THREE.DirectionalLight(0xfff5e8, CONFIG.keyLight);
+  key.position.set(9, 18, 11);
+  key.target.position.set(0, 1.5, 0);
+  key.castShadow = true;
+  key.shadow.mapSize.set(smallScreen() ? 1024 : 2048, smallScreen() ? 1024 : 2048);
+  key.shadow.camera.left = -14; key.shadow.camera.right = 14;
+  key.shadow.camera.top = 14; key.shadow.camera.bottom = -14;
+  key.shadow.camera.near = 1; key.shadow.camera.far = 60;
+  key.shadow.bias = -0.0003;
+  key.shadow.normalBias = 0.02;
+  key.shadow.camera.updateProjectionMatrix();
+  scene.add(key, key.target);
+
+  const rim = new THREE.DirectionalLight(0xbcc8d8, 0.9);
+  rim.position.set(-9, 8, -11);
+  scene.add(rim);
+  const fill = new THREE.HemisphereLight(0x8d95a2, 0x15161a, 0.38);
+  scene.add(fill);
+
+  // Studio environment baked into a PMREM so paint, chrome and glass have something to reflect.
+  (function buildEnvironment() {
+    const env = new THREE.Scene();
+    const roomMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(0.035, 0.035, 0.04), roughness: 1, side: THREE.BackSide });
+    const room = new THREE.Mesh(new THREE.BoxGeometry(60, 26, 60), roomMat);
+    room.position.set(0, 12, 0);
+    env.add(room);
+    const bounce = new THREE.PointLight(0xffffff, 2.2, 90, 2);
+    bounce.position.set(0, 21, 0);
+    env.add(bounce);
+    function panel(intensity, tint, pos, size, rot) {
+      const m = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+      m.color.setRGB(tint[0] * intensity, tint[1] * intensity, tint[2] * intensity);
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(size[0], size[1]), m);
+      p.position.set(pos[0], pos[1], pos[2]);
+      p.rotation.set(rot[0], rot[1], rot[2]);
+      env.add(p);
+    }
+    const warm = [1, 0.97, 0.92], cool = [0.9, 0.95, 1], white = [1, 1, 1];
+    panel(14, white, [0, 12.5, 0], [4.5, 26], [Math.PI / 2, 0, 0]);          // long top softbox along the truck
+    panel(5, warm, [9, 12, 0], [2.2, 24], [Math.PI / 2, 0, 0.7]);             // angled strips either side
+    panel(5, cool, [-9, 12, 0], [2.2, 24], [Math.PI / 2, 0, -0.7]);
+    panel(2.6, cool, [-24, 6, 0], [22, 7], [0, Math.PI / 2, 0]);              // big soft side panels
+    panel(2.2, warm, [24, 6, 0], [22, 7], [0, -Math.PI / 2, 0]);
+    panel(3.2, white, [0, 5, 27], [14, 6], [0, Math.PI, 0]);                  // front
+    panel(1.4, cool, [0, 7, -27], [16, 5], [0, 0, 0]);                        // rear
+    panel(0.35, white, [0, 1.2, 0], [60, 60], [-Math.PI / 2, 0, 0]);          // a faint floor glow for undersides
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    pmrem.compileCubemapShader();
+    const target = pmrem.fromScene(env, 0.045);
+    scene.environment = target.texture;
+    pmrem.dispose();
+  })();
+
+  // Floor: a true mirror, a satin tint that receives the shadow, and a fade into the background.
+  const bgColor = new THREE.Color(CONFIG.colors.background);
+  const floorGroup = new THREE.Group();
+  scene.add(floorGroup);
+  let mirror = null;
+  if (THREE.Reflector) {
+    try {
+      const shader = THREE.Reflector.ReflectorShader || {};
+      const shaderEncodes = String(shader.fragmentShader || '').indexOf('encodings_fragment') !== -1;
+      const size = smallScreen() ? 512 : 1024;
+      mirror = new THREE.Reflector(new THREE.CircleGeometry(44, 72), {
+        clipBias: 0.003, textureWidth: size, textureHeight: size, color: 0x46474c,
+        encoding: shaderEncodes ? THREE.LinearEncoding : THREE.sRGBEncoding
+      });
+      mirror.rotation.x = -Math.PI / 2;
+      mirror.material.toneMapped = false;
+      // keep the cleared background identical inside the reflection pass
+      const bgTarget = shaderEncodes ? bgColor.clone().convertSRGBToLinear() : bgColor;
+      const original = mirror.onBeforeRender;
+      mirror.onBeforeRender = function (r, s, c, g, m, grp) {
+        r.setClearColor(bgTarget, 1);
+        original.call(this, r, s, c, g, m, grp);
+        r.setClearColor(bgColor, 1);
+      };
+      floorGroup.add(mirror);
+    } catch (err) {
+      mirror = null;
+    }
+  }
+  if (!mirror) {
+    const plain = mesh(new THREE.CircleGeometry(44, 72), std({ color: srgb(0x202126), roughness: 0.55, metalness: 0.2 }), 0, 0, 0, { rot: [-Math.PI / 2, 0, 0], cast: false });
+    floorGroup.add(plain);
+  }
+  const satinMat = std({ color: srgb(0x1e1f24), roughness: 0.78, metalness: 0.05, transparent: true, opacity: mirror ? 0.55 : 0.0, depthWrite: false });
+  const satin = mesh(new THREE.PlaneGeometry(120, 120), satinMat, 0, 0.004, 0, { rot: [-Math.PI / 2, 0, 0], cast: false });
+  satin.renderOrder = 1;
+  if (!mirror) satin.visible = false;
+  floorGroup.add(satin);
+  const fadeMat = new THREE.MeshBasicMaterial({ color: bgColor.clone().convertSRGBToLinear(), alphaMap: TEX.fade, transparent: true, depthWrite: false, toneMapped: false });
+  const fade = mesh(new THREE.PlaneGeometry(120, 120), fadeMat, 0, 0.009, 0, { rot: [-Math.PI / 2, 0, 0], cast: false, receive: false });
+  fade.renderOrder = 3;
+  floorGroup.add(fade);
+
+  /* =========================================================================
+     The fleet: one entity per vehicle, parked on the turntable and driven in and out by the timeline.
+     ========================================================================= */
+  const E = {};
+  function entity(key, build) {
+    const g = new THREE.Group();
+    const wheels = [];
+    const r = build(g, wheels) || {};
+    stage.add(g);
+    E[key] = { key, group: g, wheels, x: 0, z: -60, prevZ: -60, doorL: r.doorL || null, doorR: r.doorR || null, lights: r.lights || null };
+    return E[key];
+  }
+  function cloneEntity(key, src) {
+    const g = src.group.clone(true);
+    const wheels = [];
+    g.traverse(o => { if (o.name === 'spin') wheels.push({ spin: o, sign: o.userData.sign, R: o.userData.R }); });
+    stage.add(g);
+    E[key] = { key, group: g, wheels, x: 0, z: -60, prevZ: -60, doorL: null, doorR: null, lights: null };
+    return E[key];
+  }
+
+  entity('tractor', (g, w) => { buildTractor(g, w); });
+  entity('trailer', (g, w) => buildTrailer(g, w));
+  cloneEntity('tractorSolo', E.tractor);
+  entity('curtainsider', (g, w) => {
+    buildCab(g, { deflectorTop: 3.95 });
+    buildChassis(g, w, { zRear: -6.0, zFront: 3.9, frontAxle: 2.7, rearAxle: -3.5, spare: true });
+    aoBlob(g, 3.0, 10.9, -0.85);
+    return buildCurtainBody(g, { zFront: 1.6, zBack: -6.0, deckY: 1.12, top: 3.95, width: 2.5, curtain: M.curtainRigid });
+  });
+  entity('van', (g, w) => { buildVan(g, w); });
+
+  // the tractor unit on its own opens the page on the turntable; the articulated unit waits off-stage, coupled.
+  // Both models are 1:1 and centred on their own bounding boxes: the trailer's centre sits 6.97 m behind the tractor's
+  // when coupled (kingpin 3.55 m behind the front axle), and the coupled pair's centre is 5.30 m behind the tractor's,
+  // so the tractor parks at z = ARTIC_T to keep the whole artic centred on the turntable like the single-file model was.
+  const TRAILER_OFFSET = -6.97;            // trailer z relative to the tractor when coupled
+  const ARTIC_T = 5.30;                    // tractor z when the coupled artic is centred on the turntable
+  E.tractorSolo.z = E.tractorSolo.prevZ = 0;
+  E.tractor.z = E.tractor.prevZ = -60;
+  E.trailer.z = E.trailer.prevZ = -60 + TRAILER_OFFSET;
+
+  Object.keys(E).forEach(k => E[k].group.traverse(o => { if (o.isMesh && noShadowMats.indexOf(o.material) !== -1) o.castShadow = false; }));
+
+  function updateEntities() {
+    let moved = false;
+    Object.keys(E).forEach(k => {
+      const e = E[k];
+      e.group.position.set(e.x, 0, e.z);
+      e.group.visible = Math.abs(e.z) < 48 && Math.abs(e.x) < 48;
+      const dz = e.z - e.prevZ;
+      if (dz !== 0) {
+        moved = true;
+        e.wheels.forEach(w => { w.spin.rotation[w.axis || 'y'] += dz / w.R * w.sign; });
+        e.prevZ = e.z;
+      }
+    });
+    return moved;
+  }
+
+  /* =========================================================================
+     Optional GLB replacements: photoreal, licensed manufacturer models dropped into the same choreography.
+     Loaded progressively (hero first), given a showroom material pass, scaled to the vehicle's length, with
+     named wheel groups rolling and named rear doors opening. The built-in vehicles stay as the fallback.
+     ========================================================================= */
+  function axisRotation(fwd) { return fwd === '+x' ? -Math.PI / 2 : fwd === '-x' ? Math.PI / 2 : fwd === '-z' ? Math.PI : 0; }
+
+  function dressModel(root, opt) {
+    const maxAniso = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
+    const seen = new Map();
+    root.traverse(o => {
+      if (!o.isMesh) return;
+      o.castShadow = true; o.receiveShadow = true;
+      o.frustumCulled = true;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      mats.forEach((m, i) => {
+        if (!m) return;
+        let nm = seen.get(m);
+        if (!nm) {
+          const name = ((m.name || '') + ' ' + (o.name || '')).toLowerCase();
+          nm = m;
+          if (/logo/.test(name)) {
+            // a decal mesh or material carrying the brand takes the site's logo texture (official artwork when logoUrl is set)
+            nm = new THREE.MeshStandardMaterial({ map: TEX.logo.gltf || TEX.logo, transparent: true, roughness: 0.45, metalness: 0, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2, alphaTest: 0.02 });
+            nm.name = m.name;
+          } else if (opt.glass.test(name) && !(m.transmission > 0)) {
+            nm = new THREE.MeshPhysicalMaterial({ color: m.color ? m.color.clone() : new THREE.Color(0x0b1217), metalness: 0, roughness: 0.04, clearcoat: 1, clearcoatRoughness: 0.03, transparent: true, opacity: Math.min(m.opacity || 0.72, 0.78), side: THREE.DoubleSide, depthWrite: false });
+            nm.name = m.name;
+          } else if (m.isMeshStandardMaterial) {
+            if (!m.isMeshPhysicalMaterial && opt.paint.test(name) && !opt.rubber.test(name) && !opt.lamp.test(name)) {
+              nm = new THREE.MeshPhysicalMaterial();
+              THREE.MeshStandardMaterial.prototype.copy.call(nm, m);
+              nm.clearcoat = 1; nm.clearcoatRoughness = 0.07;
+              nm.roughness = Math.min(m.roughness, 0.42);
+            } else if (opt.chrome.test(name)) {
+              m.metalness = 1; m.roughness = Math.min(m.roughness, 0.12);
+            } else if (opt.rubber.test(name)) {
+              m.metalness = 0; m.roughness = Math.max(m.roughness, 0.86);
+            }
+            nm.envMapIntensity = CONFIG.envIntensity;
+          }
+          ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'emissiveMap', 'aoMap', 'clearcoatNormalMap'].forEach(k => {
+            if (nm[k] && nm[k].isTexture) { nm[k].anisotropy = maxAniso; nm[k].needsUpdate = true; }
+          });
+          if (nm.transparent) o.castShadow = false;
+          seen.set(m, nm);
+        }
+        if (Array.isArray(o.material)) o.material[i] = nm; else o.material = nm;
+      });
+    });
+  }
+
+  // wheel groups: deepest matching nodes only, each with its spin sign and radius
+  function findWheels(root, opt) {
+    const list = [];
+    const axisVec = { x: new THREE.Vector3(1, 0, 0), y: new THREE.Vector3(0, 1, 0), z: new THREE.Vector3(0, 0, 1) }[opt.wheelAxis] || new THREE.Vector3(1, 0, 0);
+    root.updateMatrixWorld(true);
+    root.traverse(o => {
+      if (!opt.wheels.test(o.name || '')) return;
+      let p = o.parent, nested = false;
+      while (p && p !== root) { if (opt.wheels.test(p.name || '')) { nested = true; break; } p = p.parent; }
+      if (nested) return;
+      const b = new THREE.Box3().setFromObject(o);
+      if (b.isEmpty()) return;
+      const R = Math.max(0.1, (b.max.y - b.min.y) / 2);
+      const world = axisVec.clone().transformDirection(o.matrixWorld);
+      list.push({ spin: o, axis: opt.wheelAxis, sign: world.x >= 0 ? 1 : -1, R });
+    });
+    return list;
+  }
+
+  function fitModel(root, key, opt) {
+    root.rotation.y = axisRotation(opt.forward);
+    root.updateMatrixWorld(true);
+    const b1 = new THREE.Box3().setFromObject(root);
+    const sz = b1.getSize(new THREE.Vector3());
+    const k = sz.z > 0 ? (opt.length || CONFIG.modelLengths[key]) / sz.z : 1;
+    root.scale.setScalar(k);
+    root.updateMatrixWorld(true);
+    const b2 = new THREE.Box3().setFromObject(root);
+    const c = b2.getCenter(new THREE.Vector3());
+    root.position.set(-c.x, -b2.min.y, -c.z);
+    if (opt.offset) root.position.add(new THREE.Vector3(opt.offset[0] || 0, opt.offset[1] || 0, opt.offset[2] || 0));
+    if (opt.yaw) root.rotation.y += opt.yaw * D2R;
+    root.updateMatrixWorld(true);
+  }
+
+  function swapIn(target, root, wheels, doors, clips, opt) {
+    target.group.children.forEach(ch => { ch.visible = false; });
+    target.group.add(root);
+    const len = (opt && opt.length) || CONFIG.modelLengths[target.modelKey || 'box'];
+    const offZ = (opt && opt.offset && opt.offset[2]) || 0;
+    target.frontZ = offZ + len / 2;               // where the nose sits, for the line-up
+    target.wheels = wheels;
+    if (doors) { target.doorL = doors.doorL || null; target.doorR = doors.doorR || null; }
+    target.clips = clips && clips._mixer ? clips : null;
+    if (target.clips && target.clips.doors) { target.doorL = null; target.doorR = null; }   // the baked clip drives the doors
+    target.lights = null;
+    aoBlob(target.group, 3.2, len + 0.6, offZ);
+    needsRender = true;
+    renderer.shadowMap.needsUpdate = true;
+  }
+
+  const useLite = isTouch && smallScreen() && CONFIG.modelsLite && Object.keys(CONFIG.modelsLite).some(k => !!CONFIG.modelsLite[k]);
+  const MODELS = useLite ? CONFIG.modelsLite : CONFIG.models;
+  const anyModels = Object.keys(MODELS).some(k => !!MODELS[k]);
+  // small status line (bottom right) while the models load; stays visible if one fails, with the reason
+  const modelStatus = {};
+  let statusBox = null;
+  function reportModels() {
+    if (!anyModels) return;
+    try {
+    if (!statusBox) {
+      statusBox = document.createElement('div');
+      statusBox.id = 'model-status';
+      statusBox.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:25;font:12px/1.5 "Instrument Sans",Helvetica,Arial,sans-serif;color:#9c9ca1;background:rgba(18,19,22,.85);border:1px solid rgba(242,239,233,.14);border-radius:8px;padding:8px 12px;max-width:min(92vw,520px);pointer-events:none;white-space:pre-wrap';
+      document.body.appendChild(statusBox);
+    }
+    const keys = Object.keys(modelStatus);
+    const debug = /debug/.test(location.hash);
+    const lines = keys.map(k => k + ': ' + modelStatus[k]);
+    const failed = keys.some(k => /failed|error/i.test(modelStatus[k]));
+    const done = keys.length && keys.every(k => /^ready/.test(modelStatus[k]));
+    const previewHost = /claudeusercontent\.com$|claude\.ai$/.test(location.hostname) && keys.some(k => /403/.test(modelStatus[k]));
+    let head = failed ? 'The 3D vehicle models could not be loaded; showing the standard vehicles.' : done ? '3D models loaded' : 'Loading 3D models…';
+    if (previewHost) head = 'This preview host blocks the model files (HTTP 403). The MAN models load on the site\u2019s own hosting.';
+    statusBox.textContent = debug ? head + '\n' + lines.join('\n') : head;
+    statusBox.style.display = '';
+    if (done && !failed) setTimeout(() => { if (statusBox) statusBox.style.display = 'none'; }, 4000);
+    } catch (err) { /* the status line is informational only */ }
+  }
+  let gltfLoader = null;
+  const loadersReady = anyModels
+    ? loadScript(LIBS.gltf)
+      .then(() => Promise.all([loadScript(LIBS.draco).catch(() => {}), loadScript(LIBS.meshopt).catch(() => {})]))
+      .then(() => {
+        gltfLoader = new THREE.GLTFLoader();
+        if (window.MeshoptDecoder && gltfLoader.setMeshoptDecoder) gltfLoader.setMeshoptDecoder(window.MeshoptDecoder);
+        if (THREE.DRACOLoader) {
+          const draco = new THREE.DRACOLoader();
+          draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/gltf/');
+          gltfLoader.setDRACOLoader(draco);
+        }
+      })
+      .catch(err => { console.warn('Model loader unavailable; keeping the built-in vehicles.', err); modelStatus.loader = 'failed: ' + (err && err.message || err); reportModels(); })
+    : Promise.resolve();
+  function loadModel(key) {
+    const url = MODELS[key] ? (CONFIG.modelBase || '') + MODELS[key] : '';
+    if (!url) return Promise.resolve(null);
+    const opt = Object.assign({}, CONFIG.modelOptions.default, CONFIG.modelOptions[key] || {});
+    let resolved = url;
+    try { resolved = new URL(url, document.baseURI).href; } catch (err) { /* keep as given */ }
+    modelStatus[key] = 'loading ' + resolved; reportModels();
+    return loadersReady.then(() => gltfLoader ? new Promise(resolve => {
+      // 'embedded:<id>' reads a base64 GLB from a <script type="text/plain" id="<id>"> block (self-contained previews)
+      const onLoad = gltf => {
+        try {
+          const root = gltf.scene || gltf.scenes[0];
+          fitModel(root, key, opt);
+          dressModel(root, opt);
+          const wheels = findWheels(root, opt);
+          let doors = null;
+          root.traverse(o => {
+            if (!opt.doors.test(o.name || '')) return;
+            const c = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3());
+            if (c.x > 0.05 && !(doors && doors.doorR)) doors = Object.assign(doors || {}, { doorR: o });
+            else if (c.x < -0.05 && !(doors && doors.doorL)) doors = Object.assign(doors || {}, { doorL: o });
+          });
+          // animation clips baked into the file, scrubbed by the scroll timeline through pose.doors / curtain / pallets
+          const clips = {};
+          const anims = gltf.animations || [];
+          if (anims.length && opt.clips) {
+            const mixer = new THREE.AnimationMixer(root);
+            Object.keys(opt.clips).forEach(k => {
+              const clip = anims.find(c => opt.clips[k].test(c.name || ''));
+              if (!clip || !(clip.duration > 0)) return;
+              const action = mixer.clipAction(clip);
+              action.play();
+              action.paused = true;
+              clips[k] = { action, duration: clip.duration };
+            });
+            if (Object.keys(clips).length) clips._mixer = mixer;
+          }
+          console.info('[model ' + key + '] ' + wheels.length + ' wheel node(s); doors: ' + (doors ? Object.keys(doors).join(', ') : 'none') +
+            '; clips in file: ' + (anims.map(c => c.name).join(', ') || 'none') + '; scroll-driven: ' + (Object.keys(clips).filter(k => k !== '_mixer').join(', ') || 'none'));
+          modelStatus[key] = 'ready (' + (gltf.scene ? gltf.scene.children.length : 0) + ' node(s), ' + Math.round(performance.now()) + ' ms)'; reportModels();
+          resolve({ root, wheels, doors, clips, opt });
+        } catch (err) { console.warn('Model "' + key + '" could not be prepared; keeping the built-in vehicle.', err); modelStatus[key] = 'error while preparing: ' + (err && err.message || err); reportModels(); resolve(null); }
+      };
+      const onProgress = xhr => { if (xhr && xhr.total) { const pct = Math.round(xhr.loaded / xhr.total * 100); modelStatus[key] = 'loading ' + pct + '% of ' + Math.round(xhr.total / 1e6) + ' MB'; reportModels(); if (noteEl) noteEl.textContent = 'Loading ' + key + ' ' + pct + '%'; } };
+      const onError =
+      err => { console.warn('Model "' + key + '" failed to load; keeping the built-in vehicle.', err); modelStatus[key] = 'failed: ' + (err && (err.message || (err.target && err.target.status && ('HTTP ' + err.target.status)) || err.type) || err) + ' (' + resolved + ')'; reportModels(); resolve(null); };
+      if (url.indexOf('embedded:') === 0) {
+        const el = document.getElementById(url.slice(9));
+        if (!el) { onError(new Error('no embedded block ' + url)); return; }
+        const b64 = el.textContent.replace(/\s+/g, '');
+        const bin = atob(b64), bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        gltfLoader.parse(bytes.buffer, '', onLoad, onError);
+      } else {
+        gltfLoader.load(url, onLoad, onProgress, onError);
+      }
+    }) : (modelStatus[key] = 'failed: loader script did not load', reportModels(), null));
+  }
+  Object.keys(E).forEach(k => { E[k].modelKey = k === 'tractorSolo' ? 'tractor' : k; });
+
+  // hero (the tractor unit) first, then the rest in the order they appear
+  const heroLoad = loadModel('tractor').then(r => { if (r) swapIn(E.tractorSolo, r.root, r.wheels, null, r.clips, r.opt); return r; });
+  // a second instance of a loaded model (shares geometry and materials, keeps its own transforms): the artic's unit is the hero tractor again
+  const cloneResult = r => { const root = r.root.clone(true); return { root, wheels: findWheels(root, r.opt), doors: null, clips: null, opt: r.opt }; };
+  const articLoad = () => MODELS.artic ? loadModel('artic').then(r => {
+    if (!r) return;
+    E.tractor.modelKey = 'artic';
+    swapIn(E.tractor, r.root, r.wheels, null, r.clips, r.opt);
+    E.trailer.group.children.forEach(ch => { ch.visible = false; });
+    E.trailer.z = E.trailer.prevZ = -100;        // the combined model carries the trailer
+    E.trailer.group.visible = false;
+    return r;
+  }) : Promise.all([heroLoad.then(r => r && cloneResult(r)), loadModel('trailer')]).then(rs => {
+    if (rs[0]) swapIn(E.tractor, rs[0].root, rs[0].wheels, null, rs[0].clips, rs[0].opt);
+    if (rs[1]) swapIn(E.trailer, rs[1].root, rs[1].wheels, rs[1].doors, rs[1].clips, rs[1].opt);
+    return rs;
+  });
+  const restLoads = heroLoad.then(() => {
+    return ['curtainsider', 'van'].reduce((p, key) => p.then(() => loadModel(key).then(r => { if (r) swapIn(E[key], r.root, r.wheels, r.doors, r.clips, r.opt); })), articLoad());
+  });
+  restLoads.catch(err => console.warn('Fleet models: ' + err));
+  // keep the loader up until the hero is in, but never for more than a few seconds
+  const modelsReady = Promise.race([heroLoad, new Promise(res => setTimeout(res, 7000))]);
+
+  /* =========================================================================
+     Camera: one pose object driven by the single ScrollTrigger timeline.
+     ========================================================================= */
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.08, 260);
+  const pose = { theta: 0.55, phi: 83, radius: 14.5, tx: 0, ty: 1.9, tz: 0.4, hfov: 54, yaw: 0, shift: 0.16, rs: 1, doors: 0, interior: 0, curtain: 0, pallets: 0 };
+  const view = { w: 1, h: 1, aspect: 1, radiusScale: 1 };
+  const pointer = { tx: 0, ty: 0, x: 0, y: 0 };
+  let needsRender = true;
+  let lastDoors = NaN, lastYaw = NaN;
+  const _pos = new THREE.Vector3(), _target = new THREE.Vector3();
+
+  function applyPose() {
+    const phi = pose.phi * D2R + pointer.y * 1.1 * D2R;
+    const theta = pose.theta + pointer.x * 0.035;
+    const radius = pose.radius * (1 + pose.rs * (view.radiusScale - 1));
+    _target.set(pose.tx, pose.ty, pose.tz);
+    _pos.set(Math.sin(phi) * Math.sin(theta), Math.cos(phi), Math.sin(phi) * Math.cos(theta)).multiplyScalar(radius).add(_target);
+    _pos.applyAxisAngle(Y_AXIS, pose.yaw);
+    _target.applyAxisAngle(Y_AXIS, pose.yaw);
+    camera.position.copy(_pos);
+    camera.lookAt(_target);
+    camera.fov = clamp(2 * Math.atan(Math.tan(pose.hfov * D2R / 2) / view.aspect) / D2R, 24, 78);
+    camera.aspect = view.aspect;
+    const narrow = smallScreen();
+    camera.setViewOffset(view.w, view.h, narrow ? 0 : -pose.shift * view.w, (narrow && view.aspect < 1) ? 0.10 * view.h : 0, view.w, view.h);
+    camera.updateProjectionMatrix();
+
+    stage.rotation.y = pose.yaw;
+    const a = CONFIG.doorAngle * pose.doors;
+    if (E.box && E.box.doorR) E.box.doorR.rotation.y = -a;
+    if (E.box && E.box.doorL) E.box.doorL.rotation.y = a;
+    // loaded models with baked clips: scrub each clip to the matching pose value
+    Object.keys(E).forEach(k => {
+      const c = E[k].clips;
+      if (!c) return;
+      let changed = false;
+      Object.keys(c).forEach(name => {
+        if (name === '_mixer') return;
+        const t = clamp(pose[name] || 0, 0, 1) * c[name].duration;
+        if (Math.abs(c[name].action.time - t) > 1e-4) { c[name].action.time = t; changed = true; }
+      });
+      if (changed) { c._mixer.update(0); renderer.shadowMap.needsUpdate = true; }
+    });
+    const li = pose.interior;
+    if (E.box && E.box.lights) E.box.lights.forEach(l => { l.intensity = 1.4 * li; l.visible = li > 0.002; });
+    M.led.emissiveIntensity = 1.8 * li;
+    const moved = updateEntities();
+    if (moved || Math.abs(pose.doors - lastDoors) > 1e-3 || Math.abs(pose.yaw - lastYaw) > 1e-4) {
+      renderer.shadowMap.needsUpdate = true;
+      lastDoors = pose.doors; lastYaw = pose.yaw;
+    }
+  }
+
+  function resize() {
+    const w = canvas.clientWidth || window.innerWidth;
+    const h = canvas.clientHeight || window.innerHeight;
+    view.w = w; view.h = h; view.aspect = w / h;
+    view.radiusScale = view.aspect < 1 ? 1 + 0.35 * (1 - view.aspect) : 1;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isTouch ? 1.6 : 2));
+    renderer.setSize(w, h, false);
+    renderer.shadowMap.needsUpdate = true;
+    needsRender = true;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ---- the one scroll timeline: camera, vehicles and copy, in units 0..100 ---- */
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  const chapters = gsap.utils.toArray('.chapter');
+  gsap.set(chapters, { autoAlpha: 0 });
+  gsap.set('#ch-overview', { autoAlpha: 1 });
+  const progressBar = document.querySelector('.progress i');
+  const scrollHint = document.querySelector('.scroll-hint');
+  let hintHidden = false;
+
+  const tl = gsap.timeline({
+    defaults: { ease: 'power2.inOut' },
+    scrollTrigger: {
+      trigger: '#scroll-space', start: 'top top', end: 'bottom bottom', scrub: 1.2,
+      onUpdate(self) {
+        const p = self.progress;
+        if (progressBar) progressBar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+        let active = 0;
+        for (let i = 0; i < STOPS.length; i++) if (p >= STOPS[i]) active = i;
+        railItems.forEach((li, i) => li.classList.toggle('active', i === active));
+        if (!hintHidden && p > 0.03) { hintHidden = true; gsap.to(scrollHint, { autoAlpha: 0, duration: 0.5 }); }
+        if (hintHidden && p < 0.01) { hintHidden = false; gsap.to(scrollHint, { autoAlpha: 1, duration: 0.5 }); }
+      }
+    }
+  });
+  tl.eventCallback('onUpdate', () => { needsRender = true; });
+
+  // camera path. Stops: 0 Overview (tractor unit), 14.5 Full loads (artic), 28 Pallets (18 t rigid, tail-lift loading),
+  // 48.5 Same-day (TGE van), 65 Standards (tractor unit), 82 Fleet (line-up), 94 Quote.
+  const cam = (at, dur, p) => tl.to(pose, Object.assign({ duration: dur }, p), at);
+  cam(0,    10,  { theta: 1.05, phi: 81, radius: 12.5, tx: 0, ty: 1.9, tz: 0.2, hfov: 52, shift: 0.16, rs: 1 });
+  cam(10,   4.5, { theta: 1.45, phi: 84, radius: 27, tx: 0, ty: 2.1, tz: -0.5, hfov: 52, shift: -0.16 });
+  cam(14.5, 9.5, { theta: 1.78, phi: 80, radius: 35, tx: 0, ty: 2.3, tz: -0.4, hfov: 54, shift: -0.22 });
+  cam(24,   4,   { theta: 2.62, phi: 80, radius: 17, tx: 0, ty: 1.6, tz: -2.4, hfov: 52, shift: 0.12 });
+  cam(28,   6,   { theta: Math.PI + 0.45, phi: 82, radius: 11.5, tx: 0, ty: 1.4, tz: -4.2, hfov: 52, shift: 0.12 });
+  cam(34,   8,   { theta: Math.PI + 0.25, phi: 84, radius: 9.0, tx: 0, ty: 1.3, tz: -5.4, hfov: 56, shift: 0.10 });
+  cam(42,   6.5, { theta: 2.45, phi: 78, radius: 17, tx: 0, ty: 1.6, tz: -1.5, hfov: 52, shift: 0.14 });
+  cam(48.5, 4.5, { theta: 0.9, phi: 82, radius: 11.5, tx: 0, ty: 0.7, tz: 0.2, hfov: 52, shift: 0.14 });
+  cam(53,   5,   { theta: 2.5, phi: 82, radius: 9.5, tx: 0, ty: 0.6, tz: -1.5, hfov: 52, shift: 0.14 });
+  cam(58,   5,   { theta: 2.75, phi: 84, radius: 8.5, tx: 0, ty: 0.8, tz: -2.0, hfov: 54, shift: 0.14 });
+  cam(63,   3,   { theta: Math.PI - 0.2, phi: 86, radius: 12, tx: 0, ty: 1.4, tz: -1.0, hfov: 52, shift: 0.0 });
+  cam(66,   8,   { theta: -0.7, phi: 84, radius: 14, tx: 0, ty: 1.6, tz: 0.3, hfov: 50, shift: -0.16 });
+  cam(74,   8,   { theta: 1.95, phi: 80, radius: 13, tx: 0, ty: 1.6, tz: -0.4, hfov: 50, shift: -0.16 });
+  cam(82,   6,   { theta: 0.5, phi: 76, radius: 34, tx: 0, ty: 2.0, tz: -2.0, hfov: 62, shift: 0.18 });
+  cam(88,   6,   { theta: 0.62, phi: 78, radius: 31, tx: 0.5, ty: 2.0, tz: -1.5, hfov: 60, shift: 0.18 });
+  cam(94,   6,   { theta: 0.95, phi: 86, radius: 15, tx: 2.5, ty: 2.2, tz: 3.5, hfov: 56, shift: 0.14 });
+  // the artic's curtains draw back on the Full loads stop (CurtainOpen clip in the model)
+  tl.to(pose, { curtain: 1, duration: 5 }, 16);
+  tl.to(pose, { curtain: 0, duration: 2.5, ease: 'power2.in' }, 21.5);
+  // the rigid's rear doors open, the tail-lift loads two pallets (PalletsLoad clip), the doors close again
+  tl.to(pose, { pallets: 0.905, duration: 13, ease: 'none' }, 29.5);   // platform down, two pallets lifted in
+  tl.to(pose, { doors: 1, duration: 2.5 }, 30.5);
+  tl.to(pose, { doors: 0, duration: 2.5 }, 42.5);
+  tl.to(pose, { pallets: 1, duration: 1.5, ease: 'none' }, 45);        // platform folds back up against the doors
+  // the van's rear doors open on the Same-day stop
+  tl.to(pose, { doors: 1, duration: 2.5 }, 57);
+  tl.to(pose, { doors: 0, duration: 2, ease: 'power2.in' }, 60.5);
+
+  // vehicles driving in and out (forward along +z)
+  const leave = (key, at, dur) => tl.to(E[key], { z: '+=60', duration: dur, ease: 'power2.in' }, at);
+  const arrive = (key, to, at, dur) => tl.fromTo(E[key], { z: to - 60 }, { z: to, duration: dur, ease: 'power2.out', immediateRender: false }, at);
+  leave('tractorSolo', 10, 3.2);
+  arrive('tractor', ARTIC_T, 11.2, 3.3);
+  tl.fromTo(E.trailer, { z: ARTIC_T + TRAILER_OFFSET - 60 }, { z: ARTIC_T + TRAILER_OFFSET, duration: 3.3, ease: 'power2.out', immediateRender: false }, 11.2);
+  leave('tractor', 24, 3);       leave('trailer', 24, 3);
+  arrive('curtainsider', 0, 25, 3);
+  leave('curtainsider', 47.5, 3); arrive('van', 0, 48.5, 3);
+  leave('van', 63, 2.6);         arrive('tractorSolo', 0, 64, 3);
+  leave('tractorSolo', 79, 2.6);
+  // the line-up: fronts aligned on z = 4.91, side by side
+  const LINE = { tractorSolo: -6.3, van: -2.1, tractor: 2.1, curtainsider: 6.3 };   // x of each vehicle
+  const FRONT_Z = 4.91;
+  const lineZ = key => (E[key].frontZ != null ? FRONT_Z - E[key].frontZ : 0.55);   // evaluated when the tween first runs
+  Object.keys(LINE).forEach(k => tl.set(E[k], { x: LINE[k] }, 80.6));
+  tl.set(E.trailer, { x: LINE.tractor }, 80.6);
+  Object.keys(LINE).forEach((k, i) => tl.fromTo(E[k], { z: () => lineZ(k) - 60 }, { z: () => lineZ(k), duration: 4, ease: 'power2.out', immediateRender: false }, 81 + i * 0.3));
+  tl.fromTo(E.trailer, { z: () => lineZ('tractor') + TRAILER_OFFSET - 60 }, { z: () => lineZ('tractor') + TRAILER_OFFSET, duration: 4, ease: 'power2.out', immediateRender: false }, 81.6);
+
+  // copy, in the same timeline
+  const show = (sel, at, dur) => tl.fromTo(sel, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: dur || 4, ease: 'power2.out' }, at);
+  const hide = (sel, at, dur) => tl.to(sel, { autoAlpha: 0, y: -18, duration: dur || 4, ease: 'power2.in' }, at);
+  hide('#ch-overview', 5, 5);
+  show('#ch-artic', 15);      hide('#ch-artic', 23);
+  show('#ch-rigid', 29);      hide('#ch-rigid', 44);
+  show('#ch-sameday', 52);    hide('#ch-sameday', 61.5);
+  show('#ch-standards', 68);  hide('#ch-standards', 78);
+  show('#ch-fleet', 85);      hide('#ch-fleet', 92, 3);
+  show('#ch-quote', 94.5);
+  tl.add(() => {}, 100);
+
+  /* ---- navigation hooks for the site-level links ---- */
+  scrollToProgress = function (p) {
+    const st = tl.scrollTrigger;
+    const top = st ? st.start + p * (st.end - st.start) : p * (document.documentElement.scrollHeight - window.innerHeight);
+    window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+  };
+  if (quoteSection) {
+    ScrollTrigger.create({ trigger: quoteSection, start: 'top 80%', onToggle: self => document.body.classList.toggle('in-page', self.isActive) });
+  }
+
+  if (!isTouch && !reduceMotion) {
+    window.addEventListener('pointermove', e => {
+      pointer.tx = (e.clientX / window.innerWidth - 0.5) * 2;
+      pointer.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+      needsRender = true;
+    }, { passive: true });
+  }
+
+  /* ---- render loop ---- */
+  function frame() {
+    requestAnimationFrame(frame);
+    const dx = pointer.tx - pointer.x, dy = pointer.ty - pointer.y;
+    const settling = Math.abs(dx) > 0.0005 || Math.abs(dy) > 0.0005;
+    if (settling) { pointer.x += dx * 0.06; pointer.y += dy * 0.06; }
+    if (!needsRender && !settling) return;
+    needsRender = false;
+    applyPose();
+    renderer.render(scene, camera);
+  }
+
+  function start() {
+    applyPose();
+    renderer.shadowMap.needsUpdate = true;
+    try { renderer.compile(scene, camera); } catch (err) { /* warm-up only */ }
+    renderer.render(scene, camera);
+    ScrollTrigger.refresh();
+    needsRender = true;
+    requestAnimationFrame(frame);
+    gsap.to(loaderEl, { autoAlpha: 0, duration: 0.9, delay: 0.15, ease: 'power2.out' });
+    if (!reduceMotion) gsap.from('#ch-overview > *', { y: 22, autoAlpha: 0, duration: 0.9, stagger: 0.07, delay: 0.5, ease: 'power3.out' });
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => { logoRedraws.forEach(fn => fn()); needsRender = true; });
+  }
+  modelsReady.then(start, start);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+</body>
+</html>

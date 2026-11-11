@@ -1,0 +1,6 @@
+# keep the 3D models and images as binary (no line-ending conversion); files stay under GitHub's 100 MB limit, no LFS needed
+*.glb  binary
+*.png  binary
+*.jpg  binary
+*.html text eol=lf
+*.md   text eol=lf
