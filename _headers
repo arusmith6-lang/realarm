@@ -1,0 +1,4 @@
+# Netlify / Cloudflare Pages: cache the 3D models for a year and allow them to be fetched from the site
+/models/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
